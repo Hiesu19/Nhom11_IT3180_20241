@@ -1,13 +1,12 @@
-# client
-/src/client/node_modules
-
-/src/client//build
-
-
+# ALl
 .env
 
-# production
-/build
+# client
+/src/client/node_modules
+/src/client//build
+
+# server
+/src/server/node_modules
 
 # misc
 .DS_Store
