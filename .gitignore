@@ -3,8 +3,8 @@
 
 # client
 /src/client/node_modules
-/src/client//build
 
+src/client/build
 # server
 /src/server/node_modules
 
