@@ -39,6 +39,58 @@ class ProductController {
             res.status(500).json(error);
         }
     };
+
+    searchProductByNameOrID = async (req, res) => {
+        try {
+            const data = req.body.data;
+            const data1 = await Product.find({
+                productID: { $regex: data, $options: "i" },
+            }).limit(5); // Chỉ trả về 5 ptu
+
+            // console.log(data1);
+
+            if (data1.length == 0) {
+                const data2 = await Product.find({
+                    name: { $regex: data, $options: "i" },
+                }).limit(5); // Chỉ trả về 5 ptu
+                // console.log(data1);
+                return res.status(200).json(data2);
+            }
+            return res.status(200).json(data1);
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    };
+
+    deleteProduct = async (req, res) => {
+        try {
+            const product = await Product.findById(req.params.id);
+            res.status(200).json("DELETE successfully !");
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    };
+
+    updateProduct = async (req, res) => {
+        try {
+            // Tìm và cập nhật khóa học
+            const updatedProduct = await Product.findByIdAndUpdate(
+                req.params.id,
+                req.body,
+                { new: true } // Trả về tài liệu đã được cập nhật
+            );
+
+            // Kiểm tra xem có khóa học nào được tìm thấy hay không
+            if (!updatedProduct) {
+                return res
+                    .status(404)
+                    .json({ message: "sản phẩm không tìm thấy" });
+            }
+            return res.status(200).json("UPDATE successfully !");
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    };
 }
 
 module.exports = new ProductController();

@@ -38,7 +38,9 @@ const productInfoSchema = new mongoose.Schema(
         bracode: {
             type: String,
             unique: true,
-            required: false,
+            default: function () {
+                return "undefined"+ this.parent().productID; // Lấy giá trị của productID
+            },
         },
     },
     { _id: false } // Không thêm _id
