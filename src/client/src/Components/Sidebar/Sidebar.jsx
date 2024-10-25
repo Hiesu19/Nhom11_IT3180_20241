@@ -81,13 +81,13 @@ const Sidebar = () => {
             link: "/dashboard",
         },
         {
-            name: "Profile",
+            name: "Quản lý nhân viên",
             icon: <UserCircleIcon className="w-6 h-6" />,
             onClick: () => {
                 handleProfileClick();
                 setActiveItem("Profile");
             },
-            link: "/profile",
+            link: "/employee_management",
         },
         {
             name: "Settings",

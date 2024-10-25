@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Layout from "./Components/Layout";
-import Helo from "./Components/Helo";
+import UserList from "./Components/Page/Profile/UserList";
 
 function App() {
     return (
@@ -16,7 +16,12 @@ function App() {
                 <Route path="/" element={<Login />} />
                 <Route
                     path="/dashboard"
-                    element={<Layout content={<Helo />} />}
+                    element={<Layout content={<UserList />} />}
+                    
+                />
+                <Route
+                    path="/employee_management"
+                    element={<Layout content={<UserList />} />}
                 />
             </Routes>
         </Router>
