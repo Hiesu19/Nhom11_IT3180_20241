@@ -198,7 +198,7 @@ const Sidebar = () => {
                             ? "Nhân viên bán hàng"
                             : user.role === 2
                             ? "Nhân viên kho hàng"
-                            : "Helo"}{" "}
+                            : "Helo"}
                         {/* Hiển thị chức vụ của người dùng */}
                     </p>
                 </div>
