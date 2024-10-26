@@ -74,6 +74,7 @@ const ProductManagement = () => {
             <th className="p-2 border-b border-gray-300 text-sm">Mô tả</th>
             <th className="p-2 border-b border-gray-300 text-sm">Mức cảnh báo</th>
             <th className="p-2 border-b border-gray-300 text-sm">Số lượng</th>
+            <th className="p-2 border-b border-gray-300 text-sm">Đã bán</th>
           </tr>
         </thead>
         <tbody>
@@ -95,6 +96,7 @@ const ProductManagement = () => {
               </td>
               <td className="p-2 border-b border-gray-300 text-sm">{product.warnningLevel}</td>
               <td className="p-2 border-b border-gray-300 text-sm">{product.stock}</td>
+              <td className="p-2 border-b border-gray-300 text-sm">{product.sold}</td>
             </tr>
           ))}
         </tbody>
