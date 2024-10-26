@@ -6,7 +6,6 @@ const middlewareControllers = require("../app/controllers/middlewareController")
 
 router.get(
     "/",
-    middlewareControllers.verifyToken,
     productController.getAllProducts
 );
 router.post("/add_product", productController.addProduct);

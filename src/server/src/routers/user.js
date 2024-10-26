@@ -7,7 +7,6 @@ const middlewareControllers = require("../app/controllers/middlewareController")
 router.get("/", userController.getAllUsers); //, middlewareControllers.verifyToken
 router.delete(
     "/:id",
-    middlewareControllers.verifyTokenAndAdmin,
     userController.deleteUser
 );
 
