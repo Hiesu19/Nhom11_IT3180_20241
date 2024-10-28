@@ -35,11 +35,11 @@ const productInfoSchema = new mongoose.Schema(
         },
 
         //Mã vạch trên sản phẩm
-        bracode: {
+        barcode: {
             type: String,
             unique: true,
             default: function () {
-                return "undefined"+ this.parent().productID; // Lấy giá trị của productID
+                return "undefined" + this.parent().productID; // Lấy giá trị của productID
             },
         },
     },
