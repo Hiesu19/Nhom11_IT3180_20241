@@ -18,13 +18,13 @@ const productInfoSchema = new mongoose.Schema(
     {
         // Ngày sản xuất
         mfg: {
-            type: Number,
+            type: Date,
             required: false,
         },
 
         // Hạn sử dụng
         exp: {
-            type: Number,
+            type: Date,
             required: false,
         },
 
@@ -81,7 +81,7 @@ const productSchema = new mongoose.Schema(
         },
 
         //Mức cảnh báo hết hàng
-        warnningLevel: {
+        warningLevel: {
             type: Number,
             default: 10,
         },
