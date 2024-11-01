@@ -2,6 +2,12 @@ const mongoose = require("mongoose");
 
 const notificationSchema = new mongoose.Schema(
     {
+        // Mã thông báo
+        notificationID: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         // Title
         title: {
             type: String,
