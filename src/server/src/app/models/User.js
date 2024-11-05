@@ -26,13 +26,10 @@ const userSchema = new mongoose.Schema(
             required: true,
             minlength: 6,
         },
-        admin: {
-            type: Boolean,
-            default: false,
-        },
         role: {
-            type: Number,
-            default: 1,
+            type: String,
+            enum: ["nv_ban_hang", "ql_kho", "admin"], // Các giá trị hợp lệ cho role
+            default: "nv_ban_hang", // Giá trị mặc định
         },
     },
     { timestamps: true }
