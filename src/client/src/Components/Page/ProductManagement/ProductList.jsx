@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ngay = (a) => {
-    const year = Math.floor(a / 10000);
-    const month = Math.floor((a / 100) % 100);
-    const day = a % 100;
+    const year = a.toString().slice(0, 4);
+    const month = a.toString().slice(5,7);
+    const day = a.toString().slice(8, 10);
     return `${year}/${month}/${day}`;
 };
 
@@ -81,7 +81,7 @@ const ProductManagement = () => {
           {products.map((product, index) => (
             <tr
               key={product._id}
-              className={`${product.stock < product.warnningLevel ? 'bg-yellow-300' : ''}`}
+              className={`${product.stock < product.warningLevel ? 'bg-yellow-300' : ''}`}
             >
               <td className="p-2 border-b border-gray-300 text-sm">{index + 1}</td>
               <td className="p-2 border-b border-gray-300 text-sm">{product.name}</td>
@@ -94,7 +94,7 @@ const ProductManagement = () => {
                   ? `${product.productInfo.description.substring(0, 50)}...`
                   : product.productInfo.description}
               </td>
-              <td className="p-2 border-b border-gray-300 text-sm">{product.warnningLevel}</td>
+              <td className="p-2 border-b border-gray-300 text-sm">{product.warningLevel}</td>
               <td className="p-2 border-b border-gray-300 text-sm">{product.stock}</td>
               <td className="p-2 border-b border-gray-300 text-sm">{product.sold}</td>
             </tr>

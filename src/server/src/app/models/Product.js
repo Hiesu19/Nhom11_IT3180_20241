@@ -18,13 +18,13 @@ const productInfoSchema = new mongoose.Schema(
     {
         // Ngày sản xuất
         mfg: {
-            type: Number,
+            type: Date,
             required: false,
         },
 
         // Hạn sử dụng
         exp: {
-            type: Number,
+            type: Date,
             required: false,
         },
 
@@ -35,11 +35,11 @@ const productInfoSchema = new mongoose.Schema(
         },
 
         //Mã vạch trên sản phẩm
-        bracode: {
+        barcode: {
             type: String,
             unique: true,
             default: function () {
-                return "undefined"+ this.parent().productID; // Lấy giá trị của productID
+                return "undefined" + this.parent().productID; // Lấy giá trị của productID
             },
         },
     },
@@ -81,7 +81,7 @@ const productSchema = new mongoose.Schema(
         },
 
         //Mức cảnh báo hết hàng
-        warnningLevel: {
+        warningLevel: {
             type: Number,
             default: 10,
         },

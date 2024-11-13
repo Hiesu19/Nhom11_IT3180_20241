@@ -7,14 +7,25 @@ const UserList = () => {
     useEffect(() => {  
         const fetchEmployees = async () => {  
             try {  
-                const response = await axios.get("http://localhost:8000/v1/user");  //Bearer acc token header
-                setEmployees(response.data); // Cập nhật state với dữ liệu nhận được  
+                // Lấy token từ localStorage
+                const token = localStorage.getItem("user");
+                
+
+                // Gọi API với header Authorization chứa token
+                const response = await axios.get("http://localhost:8000/v1/user", {
+                    headers: {
+                        Authorization: `Bearer ${token.accessToken}`
+                    }
+                });
+                
+                // Cập nhật state với dữ liệu nhận được
+                setEmployees(response.data);  
             } catch (error) {  
                 console.error("Có lỗi khi lấy dữ liệu:", error);  
             }  
         };  
 
-        fetchEmployees(); // Gọi hàm  
+        fetchEmployees();  
     }, []);  
       
     const handleDelete = (id, employeeName) => {  

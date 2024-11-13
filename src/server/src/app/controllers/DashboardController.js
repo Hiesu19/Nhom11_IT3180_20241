@@ -1,6 +1,4 @@
-const bcrypt = require("bcrypt");
 const User = require("../models/User");
-const product = require("../models/Product");
 const Product = require("../models/Product");
 
 class DashboardController {
