@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+//hàm xoá dấu tiếng việt
 const removeDiacritics = (str) => {
     return str
         .normalize("NFD")
@@ -9,37 +10,21 @@ const removeDiacritics = (str) => {
         .toLowerCase();
 };
 
-const ngay = (a) => {
-    const year = a.toString().slice(0, 4);
-    const month = a.toString().slice(5, 7);
-    const day = a.toString().slice(8, 10);
-    return `${year}/${month}/${day}`;
-};
-
 const ProductManagement = () => {
     const [products, setProducts] = useState([]);
     const [initialData, setInitialData] = useState([]);
-
-    // State thông tin tìm kiếm
     const [query, setQuery] = useState("");
-    // State lưu accessToken
-    const [accessToken, setAccessToken] = useState(null);
 
-    //Khởi tạo const navigate
+    // Các trạng thái sắp xếp
+    const [sortOrder, setSortOrder] = useState(null);  
+    const [priceSortOrder, setPriceSortOrder] = useState(null);  
+    const [stockSortOrder, setStockSortOrder] = useState(null);  
+
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // Lấy token từ localStorage và lưu vào state
-        const storedToken = JSON.parse(localStorage.getItem("user"));
-        if (storedToken) {
-            setAccessToken(storedToken.accessToken);
-        }
-    }, []);
 
     useEffect(() => {
         const fetchProduct = async () => {
             try {
-                // Gọi API lấy toàn bộ sản phẩm
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
                     "http://localhost:8000/v1/app/products/",
@@ -60,17 +45,12 @@ const ProductManagement = () => {
     }, []);
 
     useEffect(() => {
-        // Lọc sản phẩm, ưu tiên productID rồi mới đến name
         const filterProducts = () => {
             if (query.length >= 3) {
                 const normalizedKeyword = removeDiacritics(query);
                 const filteredProducts = initialData.filter((product) => {
-                    const normalizedProductID = removeDiacritics(
-                        product.productID
-                    );
-                    const normalizedProductName = removeDiacritics(
-                        product.name
-                    );
+                    const normalizedProductID = removeDiacritics(product.productID);
+                    const normalizedProductName = removeDiacritics(product.name);
 
                     return (
                         normalizedProductID.includes(normalizedKeyword) ||
@@ -90,6 +70,51 @@ const ProductManagement = () => {
         return () => clearTimeout(delayDebounceFn);
     }, [query, initialData]);
 
+    // Hàm sắp xếp sản phẩm theo tên
+    const sortProducts = () => {
+        const sortedProducts = [...products].sort((a, b) => {
+            const nameA = removeDiacritics(a.name).toLowerCase();
+            const nameB = removeDiacritics(b.name).toLowerCase();
+
+            if (sortOrder === "asc") {
+                return nameA.localeCompare(nameB);
+            } else {
+                return nameB.localeCompare(nameA);
+            }
+        });
+
+        setProducts(sortedProducts);
+        setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    };
+
+    // Hàm sắp xếp sản phẩm theo giá bán
+    const sortByPrice = () => {
+        const sortedProducts = [...products].sort((a, b) => {
+            if (priceSortOrder === "asc") {
+                return a.prices.price - b.prices.price;
+            } else {
+                return b.prices.price - a.prices.price;
+            }
+        });
+
+        setProducts(sortedProducts);
+        setPriceSortOrder(priceSortOrder === "asc" ? "desc" : "asc");
+    };
+
+    // Hàm sắp xếp sản phẩm theo số lượng còn lại
+    const sortByStock = () => {
+        const sortedProducts = [...products].sort((a, b) => {
+            if (stockSortOrder === "asc") {
+                return a.stock - b.stock;
+            } else {
+                return b.stock - a.stock;
+            }
+        });
+
+        setProducts(sortedProducts);
+        setStockSortOrder(stockSortOrder === "asc" ? "desc" : "asc");
+    };
+
     return (
         <div className="p-4">
             <div className="flex items-center p-4 bg-gray-200">
@@ -97,46 +122,65 @@ const ProductManagement = () => {
                     type="text"
                     placeholder="Tìm kiếm sản phẩm..."
                     onChange={(e) => setQuery(e.target.value)}
-                    className="p-2 border border-gray-300 rounded w-full text-sm" // Thay đổi kích thước phông chữ ở ô input
+                    className="p-2 border border-gray-300 rounded w-full text-sm"
                 />
             </div>
 
             <table className="w-full text-left mt-4 border border-gray-300">
                 <thead>
                     <tr className="bg-gray-100">
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Số thứ tự
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Mã sản phẩm
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Tên sản phẩm
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Giá bán
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Mô tả
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Số lượng còn lại
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Mức cảnh báo
-                        </th>
+                        {[
+                            "Số thứ tự",
+                            "Mã sản phẩm",
+                            "Tên sản phẩm",
+                            "Giá bán",
+                            "Mô tả",
+                            "Số lượng còn lại",
+                            "Mức cảnh báo",
+                        ].map((header) => (
+                            <th
+                                key={header}
+                                className="p-2 border-b border-gray-300 text-sm"
+                            >
+                                {header === "Tên sản phẩm" ? (
+                                    <span
+                                        className="cursor-pointer"
+                                        onClick={sortProducts}
+                                    >
+                                        Tên sản phẩm {sortOrder === "asc" ? "↑" : sortOrder === "desc" ? "↓" : ""}
+                                    </span>
+                                ) : header === "Giá bán" ? (
+                                    <span
+                                        className="cursor-pointer"
+                                        onClick={sortByPrice}
+                                    >
+                                        Giá bán {priceSortOrder === "asc" ? "↑" : priceSortOrder === "desc" ? "↓" : ""}
+                                    </span>
+                                ) : header === "Số lượng còn lại" ? (
+                                    <span
+                                        className="cursor-pointer"
+                                        onClick={sortByStock}
+                                    >
+                                        Số lượng còn lại {stockSortOrder === "asc" ? "↑" : stockSortOrder === "desc" ? "↓" : ""}
+                                    </span>
+                                ) : (
+                                    header
+                                )}
+                            </th>
+                        ))}
                     </tr>
                 </thead>
+
                 <tbody>
                     {products.map((product, index) => (
                         <tr
                             key={product._id}
                             onClick={() => navigate(`/product/${product._id}`)}
-                            className={`${
+                            className={
                                 product.stock < product.warningLevel
                                     ? "bg-yellow-300"
                                     : ""
-                            }`}
+                            }
                         >
                             <td className="p-2 border-b border-gray-300 text-sm">
                                 {index + 1}
@@ -152,10 +196,7 @@ const ProductManagement = () => {
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
                                 {product.productInfo.description.length > 50
-                                    ? `${product.productInfo.description.substring(
-                                          0,
-                                          50
-                                      )}...`
+                                    ? `${product.productInfo.description.substring(0, 50)}...`
                                     : product.productInfo.description}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
