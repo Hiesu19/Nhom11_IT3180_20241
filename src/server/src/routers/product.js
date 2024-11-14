@@ -11,6 +11,13 @@ router.get(
     productController.getAllProducts
 );
 
+// Lấy thông tin cỉa 1 sản phẩm
+router.get(
+    "/info/:id",
+    middlewareControllers.verifyToken,
+    productController.getProductsByID
+);
+
 //Thêm hàng vào kho
 router.post(
     "/add_product",
