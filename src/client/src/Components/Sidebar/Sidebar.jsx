@@ -6,6 +6,9 @@ import {
     Cog6ToothIcon,
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
+    ShoppingCartIcon,
+    UserIcon,
+    UsersIcon,
 } from "@heroicons/react/24/outline";
 
 import handleDashboardClick from "./handleDashboardClick";
@@ -81,13 +84,22 @@ const Sidebar = () => {
             link: "/dashboard",
         },
         {
-            name: "Profile",
-            icon: <UserCircleIcon className="w-6 h-6" />,
+            name: "Quản lý nhân viên",
+            icon: <UsersIcon className="w-6 h-6" />,
             onClick: () => {
                 handleProfileClick();
-                setActiveItem("Profile");
+                setActiveItem("Quản lý nhân viên");
             },
-            link: "/profile",
+            link: "/employee_management",
+        },
+        {
+            name: "Quản Lý Sản Phẩm",
+            icon: <ShoppingCartIcon className="w-6 h-6" />,
+            onClick: () => {
+                handleProfileClick();
+                setActiveItem("Quản Lý Sản Phẩm");
+            },
+            link: "/product_management",
         },
         {
             name: "Settings",
