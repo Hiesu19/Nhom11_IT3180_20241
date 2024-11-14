@@ -9,8 +9,9 @@ import Login from "./Components/Login/Login";
 import Layout from "./Components/Layout";
 import UserList from "./Components/Page/Profile/UserList";
 import Dashboard from "./Components/Page/Dashboard/Dashboard";
-
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
+import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
+
 function App() {
     return (
         <Router>
@@ -28,6 +29,10 @@ function App() {
                 <Route
                     path="/product_management"
                     element={<Layout content={<ProductManagement />} />}
+                />
+                <Route
+                    path="/product/:id"
+                    element={<Layout content={<ProductDetail />} />}
                 />
             </Routes>
         </Router>

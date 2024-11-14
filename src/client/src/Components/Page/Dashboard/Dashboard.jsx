@@ -10,6 +10,7 @@ import {
     Title,
     Tooltip,
     Legend,
+    Filler,
 } from "chart.js";
 import {
     CubeIcon,
@@ -26,7 +27,8 @@ ChartJS.register(
     LineElement,
     Title,
     Tooltip,
-    Legend
+    Legend,
+    Filler
 );
 
 const Dashboard = () => {
@@ -40,17 +42,6 @@ const Dashboard = () => {
 
     // State lưu lỗi
     const [error, setError] = useState(null);
-
-    // // State lưu accessToken
-    // const [accessToken, setAccessToken] = useState(null);
-
-    // useEffect(() => {
-    //     // Lấy token từ localStorage và lưu vào state
-    //     const storedToken = JSON.parse(localStorage.getItem("user"));
-    //     if (storedToken) {
-    //         setAccessToken(storedToken.accessToken);
-    //     }
-    // }, []);
 
     // // Lấy data Dashboard
     useEffect(() => {

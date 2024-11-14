@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const removeDiacritics = (str) => {
     return str
@@ -16,12 +17,16 @@ const ngay = (a) => {
 };
 
 const ProductManagement = () => {
-    const [keyword, setKeyword] = useState("");
     const [products, setProducts] = useState([]);
-    const [query, setQuery] = useState("");
     const [initialData, setInitialData] = useState([]);
+
+    // State thông tin tìm kiếm
+    const [query, setQuery] = useState("");
     // State lưu accessToken
     const [accessToken, setAccessToken] = useState(null);
+
+    //Khởi tạo const navigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Lấy token từ localStorage và lưu vào state
@@ -103,31 +108,22 @@ const ProductManagement = () => {
                             Số thứ tự
                         </th>
                         <th className="p-2 border-b border-gray-300 text-sm">
+                            Mã sản phẩm
+                        </th>
+                        <th className="p-2 border-b border-gray-300 text-sm">
                             Tên sản phẩm
                         </th>
                         <th className="p-2 border-b border-gray-300 text-sm">
                             Giá bán
                         </th>
                         <th className="p-2 border-b border-gray-300 text-sm">
-                            Giá mua
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Ngày sản xuất
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Hạn sử dụng
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
                             Mô tả
                         </th>
                         <th className="p-2 border-b border-gray-300 text-sm">
+                            Số lượng còn lại
+                        </th>
+                        <th className="p-2 border-b border-gray-300 text-sm">
                             Mức cảnh báo
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Số lượng
-                        </th>
-                        <th className="p-2 border-b border-gray-300 text-sm">
-                            Đã bán
                         </th>
                     </tr>
                 </thead>
@@ -135,6 +131,7 @@ const ProductManagement = () => {
                     {products.map((product, index) => (
                         <tr
                             key={product._id}
+                            onClick={() => navigate(`/product/${product._id}`)}
                             className={`${
                                 product.stock < product.warningLevel
                                     ? "bg-yellow-300"
@@ -145,19 +142,13 @@ const ProductManagement = () => {
                                 {index + 1}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
+                                {product.productID}
+                            </td>
+                            <td className="p-2 border-b border-gray-300 text-sm">
                                 {product.name}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
                                 {product.prices.price}
-                            </td>
-                            <td className="p-2 border-b border-gray-300 text-sm">
-                                {product.prices.purchasePrice}
-                            </td>
-                            <td className="p-2 border-b border-gray-300 text-sm">
-                                {ngay(product.productInfo.mfg)}
-                            </td>
-                            <td className="p-2 border-b border-gray-300 text-sm">
-                                {ngay(product.productInfo.exp)}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
                                 {product.productInfo.description.length > 50
@@ -168,13 +159,10 @@ const ProductManagement = () => {
                                     : product.productInfo.description}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
-                                {product.warningLevel}
-                            </td>
-                            <td className="p-2 border-b border-gray-300 text-sm">
                                 {product.stock}
                             </td>
                             <td className="p-2 border-b border-gray-300 text-sm">
-                                {product.sold}
+                                {product.warningLevel}
                             </td>
                         </tr>
                     ))}

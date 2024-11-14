@@ -39,7 +39,7 @@ const UserList = () => {
         };
 
         fetchEmployees();
-    },[]);
+    }, []);
 
     const handleDelete = async (id, employeeName) => {
         const result = await Swal.fire({
@@ -125,12 +125,12 @@ const UserList = () => {
                                 {employee.name}
                             </td>
                             <td className="py-2 px-4 border-b text-center">
-                                {employee.role === 0
-                                    ? "Người quản lý"
-                                    : employee.role === 1
+                                {employee.role === "nv_ban_hang"
                                     ? "Nhân viên bán hàng"
-                                    : employee.role === 2
-                                    ? "Nhân viên kho hàng"
+                                    : employee.role === "ql_kho"
+                                    ? "Nhân viên quản lý kho"
+                                    : employee.role === "admin"
+                                    ? "Admin"
                                     : "Chức vụ khác"}
                             </td>
                             <td className="py-2 px-4 border-b text-center">
