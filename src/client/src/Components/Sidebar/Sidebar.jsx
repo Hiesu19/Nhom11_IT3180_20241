@@ -192,12 +192,12 @@ const Sidebar = () => {
                     </p>
                     {/* Tên người dùng hiển thị bên cạnh avatar */}
                     <p className="text-sm text-gray-600">
-                        {user.role === 0
-                            ? "Người quản lý"
-                            : user.role === 1
+                        {user.role === "nv_ban_hang"
                             ? "Nhân viên bán hàng"
-                            : user.role === 2
-                            ? "Nhân viên kho hàng"
+                            : user.role === "ql_kho"
+                            ? "Quản lý kho"
+                            : user.role === "admin"
+                            ? "Admin"
                             : "Helo"}
                         {/* Hiển thị chức vụ của người dùng */}
                     </p>
