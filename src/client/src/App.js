@@ -11,6 +11,8 @@ import UserList from "./Components/Page/Profile/UserList";
 import Dashboard from "./Components/Page/Dashboard/Dashboard";
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
 import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
+import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
+import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
 
 function App() {
     return (
@@ -25,6 +27,14 @@ function App() {
                 <Route
                     path="/employee_management"
                     element={<Layout content={<UserList />} />}
+                />
+                <Route
+                    path="/create_invoicet"
+                    element={<Layout content={<CreateInvoicet />} />}
+                />
+                <Route
+                    path="/invoice_preview"
+                    element={<Layout content={<InvoicePreview />} />}
                 />
                 <Route
                     path="/product_management"

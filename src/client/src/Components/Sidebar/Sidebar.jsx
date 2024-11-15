@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     HomeIcon,
-    UserCircleIcon,
     Cog6ToothIcon,
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
     ShoppingCartIcon,
     UserIcon,
     UsersIcon,
+    ReceiptPercentIcon,
 } from "@heroicons/react/24/outline";
 
 import handleDashboardClick from "./handleDashboardClick";
@@ -101,6 +101,21 @@ const Sidebar = () => {
             },
             link: "/product_management",
         },
+        {
+            name: "Tạo hóa đơn",
+            icon: <ReceiptPercentIcon className="w-6 h-6" />,
+            onClick: () => {
+                handleProfileClick();
+                setActiveItem("Tạo hóa đơn");
+            },
+            link: "/create_invoicet",
+        },
+        // {
+        //     name: "Xem Trước Hóa Đơn",
+        //     icon: <ReceiptPercentIcon className="w-6 h-6" />,
+        //     onClick: () => handleProfileClick(),
+        //     link: "/invoice_preview",
+        // },
         {
             name: "Settings",
             icon: <Cog6ToothIcon className="w-6 h-6" />,
