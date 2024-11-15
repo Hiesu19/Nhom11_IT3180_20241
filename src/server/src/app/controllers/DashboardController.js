@@ -45,11 +45,11 @@ class DashboardController {
             dataOut.totalValue = totalValueResult[0]?.totalValue;
             dataOut.totalProducts = totalProductsResult[0]?.totalProducts;
         } catch (error) {
-            dataOut.productCount = dataOut.productCount ?? "Chưa thể xác định";
-            dataOut.userCount = dataOut.userCount ?? "Chưa thể xác định";
-            dataOut.totalValue = dataOut.totalValue ?? "Chưa thể xác định";
+            dataOut.productCount = dataOut.productCount ?? "Null";
+            dataOut.userCount = dataOut.userCount ?? "Null";
+            dataOut.totalValue = dataOut.totalValue ?? "Null";
             dataOut.totalProducts =
-                dataOut.totalProducts ?? "Chưa thể xác định";
+                dataOut.totalProducts ?? "Null";
         }
 
         return res.status(200).json(dataOut);

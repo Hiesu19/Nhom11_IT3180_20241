@@ -30,8 +30,9 @@ class AuthController {
     generateAccessToken = (user) => {
         return jwt.sign(
             {
-                id: user.id,
-                admin: user.admin,
+                id: user._id,
+                role: user.role,
+                username: user.username,
             },
             process.env.JWT_ACCESS_KEY,
             { expiresIn: "2d" }
@@ -59,12 +60,12 @@ class AuthController {
                 const accessToken = this.generateAccessToken(user);
 
                 //Save AccessToken in cookie
-                res.cookie("accessToken", accessToken, {
-                    httpOnly: true,
-                    secure: false,
-                    path: "/",
-                    sameSite: "strict",
-                });
+                // res.cookie("accessToken", accessToken, {
+                //     httpOnly: true,
+                //     secure: false,
+                //     path: "/",
+                //     sameSite: "strict",
+                // });
 
                 const { password, ...user_datas } = user._doc; // Remove password to res
                 return res.status(200).json({ user_datas, accessToken });

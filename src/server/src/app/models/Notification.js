@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require("mongoose-sequence")(mongoose);
 
 const notificationSchema = new mongoose.Schema(
     {
         // Mã thông báo
         notificationID: {
-            type: String,
-            required: true,
+            type: Number,
             unique: true,
+        },
+
+        author: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
         },
         // Title
         title: {
@@ -34,5 +39,7 @@ const notificationSchema = new mongoose.Schema(
     },
     { timestamps: true }
 );
+
+notificationSchema.plugin(AutoIncrement, { inc_field: "notificationID" }); // NotificationId tự động tăng 1
 
 module.exports = mongoose.model("Notification", notificationSchema);

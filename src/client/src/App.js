@@ -12,6 +12,8 @@ import Dashboard from "./Components/Page/Dashboard/Dashboard";
 import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
 import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
+import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
+import AddProduct from "./Components/Page/ProductManagement/AddProduct";
 
 function App() {
     return (
@@ -38,6 +40,14 @@ function App() {
                 <Route
                     path="/product_management"
                     element={<Layout content={<ProductManagement />} />}
+                />
+                <Route
+                    path="/product/:id"
+                    element={<Layout content={<ProductDetail />} />}
+                />
+                <Route
+                    path="/product_management/add_product"
+                    element={<Layout content={<AddProduct />} />}
                 />
             </Routes>
         </Router>
