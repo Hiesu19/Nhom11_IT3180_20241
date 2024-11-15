@@ -17,8 +17,6 @@ class PaymentController {
             process.env.PAY_OS_API_KEY,
             process.env.PAY_OS_CHECKSUM_KEY
         );
-
-        // const YOUR_DOMAIN = `http://localhost:3000`;
         // Lấy domain từ request
         const YOUR_DOMAIN = `${req.protocol}://${req.headers.host}`;
 
