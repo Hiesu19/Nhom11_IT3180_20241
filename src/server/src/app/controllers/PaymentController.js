@@ -39,6 +39,12 @@ class PaymentController {
             const paymentLinkResponse = await payOS.createPaymentLink(body_pay);
             res.status(200).json({
                 paymentLink: paymentLinkResponse.checkoutUrl,
+                qrCodeText: paymentLinkResponse.qrCode,
+                description: paymentLinkResponse.description,
+                amount: paymentLinkResponse.amount,
+                currency: paymentLinkResponse.currency,
+                bin: paymentLinkResponse.bin,
+                accountNumber: paymentLinkResponse.accountNumber,
                 returnUrl: body_pay.returnUrl,
                 cancelUrl: body_pay.cancelUrl,
             });
