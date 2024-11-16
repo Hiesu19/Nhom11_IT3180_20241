@@ -1,4 +1,6 @@
 const PayOS = require("@payos/node");
+const axios = require("axios");
+
 class PaymentController {
     // Tạo dạng yyyymmddhhmmss
     formatDate = (date) => {
@@ -43,12 +45,60 @@ class PaymentController {
                 currency: paymentLinkResponse.currency,
                 bin: paymentLinkResponse.bin,
                 accountNumber: paymentLinkResponse.accountNumber,
+                orderCode: orderCode,
                 returnUrl: body_pay.returnUrl,
                 cancelUrl: body_pay.cancelUrl,
             });
         } catch (error) {
             console.error(error);
             res.status(500).send({ message: "Some thing error at payment" });
+        }
+    };
+
+    checkOrder = async (req, res) => {
+        try {
+            const { PAY_OS_CLIENT_ID, PAY_OS_API_KEY } = process.env;
+            const orderID = req.body.orderID;
+
+            // Gửi yêu cầu
+            const response = await axios.get(
+                `https://api-merchant.payos.vn/v2/payment-requests/${orderID}`,
+                {
+                    headers: {
+                        "x-client-id": PAY_OS_CLIENT_ID,
+                        "x-api-key": PAY_OS_API_KEY,
+                    },
+                }
+            );
+            res.status(200).json(response.data);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    };
+
+    cancelOrder = async (req, res) => {
+        try {
+            const { PAY_OS_CLIENT_ID, PAY_OS_API_KEY } = process.env;
+            const orderID = req.body.orderID;
+
+            const cancellationReason = {
+                cancellationReason: "Null",
+            };
+
+            // Gửi yêu cầu
+            const response = await axios.post(
+                `https://api-merchant.payos.vn/v2/payment-requests/${orderID}/cancel`,
+                cancellationReason,
+                {
+                    headers: {
+                        "x-client-id": PAY_OS_CLIENT_ID,
+                        "x-api-key": PAY_OS_API_KEY,
+                    },
+                }
+            );
+            res.status(200).json(response.data);
+        } catch (error) {
+            res.status(500).json(error);
         }
     };
 }
