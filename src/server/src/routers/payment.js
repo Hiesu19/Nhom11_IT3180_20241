@@ -11,4 +11,15 @@ router.post(
     paymentController.createPaymentLink
 );
 
+router.post(
+    "/check-order",
+    middlewareControllers.verifyToken,
+    paymentController.checkOrder
+);
+
+router.post(
+    "/cancel-order",
+    middlewareControllers.verifyToken,
+    paymentController.cancelOrder
+);
 module.exports = router;
