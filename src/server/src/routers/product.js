@@ -46,4 +46,11 @@ router.put(
     productController.updateProduct
 );
 
+// Sell
+router.post(
+    "/sell",
+    middlewareControllers.verifyToken,
+    productController.sellProduct
+);
+
 module.exports = router;

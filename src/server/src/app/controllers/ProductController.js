@@ -101,6 +101,42 @@ class ProductController {
             return res.status(500).json(error);
         }
     };
+
+    sellProduct = async (req, res) => {
+        try {
+            const { items } = req.body; // Lấy thông tin sản phẩm từ request body
+
+            // Lặp qua từng sản phẩm trong đơn bán
+            for (let item of items) {
+                const product = await Product.findOne({
+                    productID: item.productID,
+                });
+
+                if (!product) {
+                    return res
+                        .status(400)
+                        .json({ message: `ProductID ${item.productID} not found` });
+                }
+
+                if (product.stock < item.quantity) {
+                    return res
+                        .status(400)
+                        .json({
+                            message: `Not enough stock for ${item.product}`,
+                        });
+                }
+
+                // Trừ số lượng sản phẩm trong kho
+                product.stock -= item.quantity;
+
+                // Cập nhật lại thông tin sản phẩm trong cơ sở dữ liệu
+                await product.save();
+                return res.status(200).json(product);
+            }
+        } catch (error) {
+            return res.status(500).json(error);
+        }
+    };
 }
 
 module.exports = new ProductController();
