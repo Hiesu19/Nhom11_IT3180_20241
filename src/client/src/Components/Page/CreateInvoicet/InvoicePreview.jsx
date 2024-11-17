@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import Swal from "sweetalert2";
+import React, { useState, useEffect } from "react";
 import QRCode from "react-qr-code";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -9,10 +10,24 @@ function InvoicePreview() {
     const { items, total } = state || { items: [], total: 0 };
     const [paymentMethod, setPaymentMethod] = useState("cash");
     const [qrText, setQrText] = useState("");
-    const [oder, setOrder] = useState("");
+    const [orderCode, setOrderCode] = useState("");
+    const [orderStatus, setOrderStatus] = useState("PENDING");
+    const [orderCheckInterval, setOrderCheckInterval] = useState(null);
+    const [isQRCodeCancelled, setIsQRCodeCancelled] = useState(false); // Trạng thái hủy QR
 
     // Tạo URL QR
     const fetchAPIQRCode = async (amount) => {
+        if (amount <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Giá trị đơn hàng không được bé hơn hoặc bằng 0!",
+                confirmButtonText: "OK",
+            });
+            navigate(-1);
+            return; // Dừng hàm nếu amount không hợp lệ
+        }
+
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             const response = await axios.post(
@@ -26,19 +41,125 @@ function InvoicePreview() {
                     },
                 }
             );
-            // Trả về dữ liệu
+
             const payment = response.data;
             setQrText(payment.qrCodeText);
-            window.open(payment.paymentLink, "_blank");
+            setOrderCode(payment.orderCode);
+
+            // Bắt đầu kiểm tra trạng thái thanh toán
+            startCheckingOrderStatus(payment.orderCode);
         } catch (error) {
             console.error("Lỗi khi gọi API payment:", error);
         }
     };
 
+    // Hàm kiểm tra trạng thái đơn hàng
+    const checkOrderStatus = async (orderID) => {
+        try {
+            const token = JSON.parse(localStorage.getItem("user"));
+            const response = await axios.post(
+                `http://localhost:8000/v1/app/payment/check-order`,
+                {
+                    orderID: orderID,
+                },
+                {
+                    headers: {
+                        token: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            const data = response.data;
+            setOrderStatus(data.data.status);
+
+            // Nếu trạng thái là PAID, dừng polling
+            if (data.data.status === "PAID") {
+                clearInterval(orderCheckInterval);
+
+                // Hiển thị Swal thông báo và đếm ngược
+                Swal.fire({
+                    icon: "success",
+                    title: "Thanh toán thành công!",
+                    html: "Quay lại trang tạo hóa đơn sau <b>3</b> giây...",
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading();
+                        const b = Swal.getHtmlContainer().querySelector("b");
+                        let countdown = 3;
+                        const timerInterval = setInterval(() => {
+                            b.textContent = countdown--;
+                        }, 1000);
+                        setTimeout(() => clearInterval(timerInterval), 3000);
+                    },
+                }).then(() => {
+                    navigate("/create_invoicet");
+                });
+            }
+        } catch (error) {
+            console.error("Lỗi khi kiểm tra trạng thái:", error);
+        }
+    };
+
+    // Hàm huỷ QR
+    const cancelQRCode = async (orderCode) => {
+        setIsQRCodeCancelled(true);
+        setQrText("");
+        setOrderCode("");
+        setOrderStatus("CANCEL");
+
+        clearInterval(orderCheckInterval);
+
+        try {
+            const token = JSON.parse(localStorage.getItem("user"));
+            const response = await axios.post(
+                `http://localhost:8000/v1/app/payment/cancel-order`,
+                {
+                    orderID: orderCode,
+                },
+                {
+                    headers: {
+                        token: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            if (response.data.code === "00") {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Đã hủy mã QRCode",
+                    text: "Bạn có thể chọn phương thức thanh toán khác.",
+                    confirmButtonText: "OK",
+                });
+            }
+        } catch (error) {
+            console.error("Lỗi khi huỷ đơn hàng:", error);
+        }
+    };
+
+    // Bắt đầu kiểm tra trạng thái mỗi giây
+    const startCheckingOrderStatus = (orderID) => {
+        const interval = setInterval(() => {
+            checkOrderStatus(orderID);
+        }, 1000);
+        setOrderCheckInterval(interval);
+    };
+
+    // Xóa interval khi component bị hủy
+    useEffect(() => {
+        return () => {
+            if (orderCheckInterval) {
+                clearInterval(orderCheckInterval);
+            }
+        };
+    }, [orderCheckInterval]);
+
     const handlePaymentMethodChange = (method) => {
         setPaymentMethod(method);
         if (method === "banking") {
             fetchAPIQRCode(total);
+        } else if (method === "cash") {
+            navigate("/invoice_preview/cash", {
+                state: { items, total, paymentMethod: "cash" },
+            });
         }
     };
 
@@ -82,7 +203,6 @@ function InvoicePreview() {
                     <strong>Tổng Tiền: {total} VND</strong>
                 </div>
 
-                {/* Tùy chọn phương thức thanh toán */}
                 <div className="flex justify-between mt-4 space-x-4">
                     <button
                         onClick={() => handlePaymentMethodChange("cash")}
@@ -106,25 +226,39 @@ function InvoicePreview() {
                     </button>
                 </div>
 
-                {/* Hiển thị QR Code nếu chọn phương thức thanh toán là Chuyển khoản */}
-                {paymentMethod === "banking" && (
-                    <div className="flex justify-center mt-6">
-                        <QRCode value={qrText} />
-                    </div>
+                {paymentMethod === "banking" && qrText && (
+                    <>
+                        <div className="flex justify-center mt-6">
+                            <QRCode value={qrText} />
+                        </div>
+                        <p className="text-center mt-4">
+                            Quét mã QR bằng ứng dụng ngân hàng để thanh toán.
+                        </p>
+                        <div className="flex justify-center mt-4">
+                            <button
+                                onClick={() => cancelQRCode(orderCode)}
+                                className="px-4 py-2 bg-red-500 text-white rounded"
+                            >
+                                Hủy QRCode
+                            </button>
+                        </div>
+                    </>
                 )}
 
-                {paymentMethod === "banking" && (
-                    <p className="text-center mt-4">
-                        Quét mã QR bằng ứng dụng ngân hàng để thanh toán.
+                <div className="text-center mt-4">
+                    <p>
+                        Trạng thái đơn hàng:{" "}
+                        <strong>
+                            {orderStatus === "PENDING"
+                                ? "Chưa thanh toán"
+                                : orderStatus === "PAID"
+                                ? "Đã thanh toán"
+                                : orderStatus === "CANCEL"
+                                ? "Đã hủy"
+                                : "Không xác định"}
+                        </strong>
                     </p>
-                )}
-
-                <button
-                    onClick={() => navigate("/create_invoicet")}
-                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mt-4"
-                >
-                    Quay Lại Tạo Hóa Đơn
-                </button>
+                </div>
             </div>
         </div>
     );

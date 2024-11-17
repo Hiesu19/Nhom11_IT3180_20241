@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import unidecode from "unidecode"; // Dùng thư viện unidecode để chuyển đổi sang không dấu
+import unidecode from "unidecode";
+import Swal from "sweetalert2";
 
 function CreateInvoice() {
     const [items, setItems] = useState([]);
@@ -9,10 +10,10 @@ function CreateInvoice() {
     const [quantity, setQuantity] = useState({});
     const [total, setTotal] = useState(0);
     const [searchTerm, setSearchTerm] = useState("");
-    const [isSearching, setIsSearching] = useState(false); // Điều khiển việc hiển thị danh sách sản phẩm
-    const [isFocused, setIsFocused] = useState(false); // Quản lý trạng thái focus
-    const [errorMessage, setErrorMessage] = useState(""); // Trạng thái lưu thông báo lỗi
-    const [paymentMethod, setPaymentMethod] = useState("cash"); // Thêm trạng thái phương thức thanh toán
+    const [isSearching, setIsSearching] = useState(false);
+    const [isFocused, setIsFocused] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("cash");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -74,6 +75,8 @@ function CreateInvoice() {
         } else {
             // Nếu sản phẩm chưa có trong giỏ, thêm sản phẩm mới
             const newItem = {
+                _id: product._id, // Thêm _id
+                productID: product.productID, // Thêm productID
                 product: product.name,
                 quantity: requestedQuantity,
                 price: product.prices.price,
@@ -100,6 +103,15 @@ function CreateInvoice() {
     };
 
     const handleCreateInvoice = () => {
+        if (total <= 0) {
+            Swal.fire({
+                icon: "error",
+                title: "Lỗi",
+                text: "Giá trị đơn hàng không được bé hơn hoặc bằng 0!",
+                confirmButtonText: "OK",
+            });
+            return; // Dừng hàm nếu amount không hợp lệ
+        }
         navigate("/invoice_preview", {
             state: { items, total, paymentMethod },
         });
