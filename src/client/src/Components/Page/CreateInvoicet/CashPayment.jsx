@@ -1,21 +1,36 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
+import saveInvoice from "./saveinvoice";
+import sellSomething from "./sell_something";
+
 function CashPayment() {
     const navigate = useNavigate();
-    const { state } = useLocation(); // Nhận state được truyền từ trang trước
+    const { state } = useLocation();
     const { items, total, paymentMethod } = state || {
         items: [],
         total: 0,
         paymentMethod: "cash",
-    }; // Đặt giá trị mặc định nếu state không tồn tại
+    };
 
     const [amountGiven, setAmountGiven] = useState(0); // Tiền khách đưa
     const [change, setChange] = useState(0); // Tiền thừa
+    const [checkRefund, setCheckRefund] = useState(false);
+
+    const formatDate = (date) => {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, "0");
+        const d = String(date.getDate()).padStart(2, "0");
+        const h = String(date.getHours()).padStart(2, "0");
+        const min = String(date.getMinutes()).padStart(2, "0");
+        const s = String(date.getSeconds()).padStart(2, "0");
+        return parseInt(`${y}${m}${d}${h}${min}${s}`, 10);
+    };
 
     const handleCalculateChange = () => {
         if (amountGiven >= total) {
             setChange(amountGiven - total);
+            setCheckRefund(true);
         } else {
             alert("Số tiền đưa không đủ để thanh toán!");
         }
@@ -25,9 +40,37 @@ function CashPayment() {
         console.log(amountGiven);
         if (amountGiven < total) {
             alert("Khách hàng gửi chưa đủ số tiền");
+        } else if (checkRefund == false) {
+            alert("Vui tính tiền thừa cho khách trước !");
         } else {
+            const orderCode = formatDate(new Date());
+            handleSellSomething();
+            handleSaveInvoice(orderCode);
             navigate("/create_invoicet");
-            console.log(items);
+            window.location.reload();
+        }
+    };
+
+    const handleSaveInvoice = async (orderCode) => {
+        try {
+            const result = await saveInvoice(
+                items,
+                orderCode,
+                total,
+                paymentMethod
+            );
+            console.log("Kết quả lưu hóa đơn:", result);
+        } catch (error) {
+            console.error("Không thể lưu hóa đơn:", error);
+        }
+    };
+
+    const handleSellSomething = async () => {
+        try {
+            const result = await sellSomething(items);
+            console.log(result);
+        } catch (error) {
+            console.error("lỗi trong sản phẩm", error);
         }
     };
 

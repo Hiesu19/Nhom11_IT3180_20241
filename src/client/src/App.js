@@ -14,6 +14,7 @@ import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
 import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
 import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
 import CashPayment from "./Components/Page/CreateInvoicet/CashPayment";
+import BankPayment from "./Components/Page/CreateInvoicet/BankPayment";
 
 function App() {
     return (
@@ -39,6 +40,10 @@ function App() {
                 <Route
                     path="/invoice_preview/cash"
                     element={<Layout content={<CashPayment />} />}
+                />
+                <Route
+                    path="/invoice_preview/bank"
+                    element={<Layout content={<BankPayment />} />}
                 />
                 <Route
                     path="/product_management"
