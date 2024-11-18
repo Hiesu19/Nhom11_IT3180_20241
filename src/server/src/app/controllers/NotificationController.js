@@ -97,6 +97,7 @@ class NotificationController {
 
             res.status(200).json({
                 message: "Seen notification",
+                notification,
             });
         } catch (error) {
             res.status(500).json(error);

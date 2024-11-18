@@ -75,7 +75,11 @@ class ProductController {
     deleteProduct = async (req, res) => {
         try {
             const product = await Product.findByIdAndDelete(req.params.id);
-            res.status(200).json("DELETE successfully !");
+            res.status(200).json({
+                mesage: "DELETE successfully !",
+                auth: req.user.username,
+                product: product,
+            });
         } catch (error) {
             res.status(500).json(error);
         }

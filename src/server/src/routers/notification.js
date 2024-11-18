@@ -34,14 +34,14 @@ router.post(
 
 // Post for someone
 router.post(
-    "/post/:id",
+    "/post_for_someone/:id",
     middlewareControllers.verifyTokenAndAdmin,
     notificationController.createNotificationForSomeone
 );
 
 // Post for admin
 router.post(
-    "/post/:id",
+    "/post_for_admin",
     middlewareControllers.verifyToken,
     notificationController.createNotificationForAdmin
 );
