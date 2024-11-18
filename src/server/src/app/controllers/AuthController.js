@@ -16,6 +16,7 @@ class AuthController {
                 email: req.body.email,
                 password: hashed,
                 role: req.body.role,
+                phone: req.body.phone,
             });
 
             //Save Database
