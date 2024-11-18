@@ -7,10 +7,16 @@ import {
 } from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Layout from "./Components/Layout";
-import UserList from "./Components/Page/Profile/UserList";
+
 import Dashboard from "./Components/Page/Dashboard/Dashboard";
+
+import UserList from "./Components/Page/Profile/UserList";
+import EditEmployee from "./Components/Page/Profile/EditEmployee";
+import DetailEmployee from "./Components/Page/Profile/DetailEmployee";
+
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
 import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
+
 import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
 import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
 import CashPayment from "./Components/Page/CreateInvoicet/CashPayment";
@@ -28,6 +34,14 @@ function App() {
                 <Route
                     path="/employee_management"
                     element={<Layout content={<UserList />} />}
+                />
+                <Route
+                    path="/employee_management/edit/:id"
+                    element={<Layout content={<EditEmployee />} />}
+                />
+                <Route
+                    path="/employee_management/detail/:id"
+                    element={<Layout content={<DetailEmployee />} />}
                 />
                 <Route
                     path="/create_invoicet"

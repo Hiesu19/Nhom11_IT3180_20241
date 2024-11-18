@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const UserList = () => {
     //State lưu nhân viên từ API
     const [employees, setEmployees] = useState([]);
-
-    //State lưu accessToken từ trong localStorage
-    const [accessToken, setAccessToken] = useState(null);
-
-    useEffect(() => {
-        // Lấy token từ localStorage và lưu vào state
-        const storedToken = JSON.parse(localStorage.getItem("user"));
-        if (storedToken) {
-            setAccessToken(storedToken.accessToken);
-        }
-    }, []);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
@@ -56,11 +46,12 @@ const UserList = () => {
         if (result.isConfirmed) {
             try {
                 // Gọi API xoá nhân viên
+                const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.delete(
                     `http://localhost:8000/v1/user/${id}`,
                     {
                         headers: {
-                            token: `Bearer ${accessToken}`,
+                            token: `Bearer ${token.accessToken}`,
                         },
                     }
                 );
@@ -91,40 +82,47 @@ const UserList = () => {
 
     // Hàm xử lý chỉnh sửa nhân viên
     const handleEdit = (id) => {
-        console.log("Chỉnh sửa nhân viên với ID:", id);
-        // Thêm logic chỉnh sửa nhân viên tại đây
+        navigate(`/employee_management/edit/${id}`);
+    };
+    const handleDetail = (id) => {
+        navigate(`/employee_management/detail/${id}`);
     };
 
     return (
-        <div className="container mx-auto mt-5">
-            <h2 className="text-2xl font-bold mb-4">Danh sách nhân viên</h2>
-            <table className="min-w-full bg-white border border-gray-200">
+        <div className="container mx-auto mt-8">
+            <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+                Danh sách nhân viên
+            </h2>
+            <table className="w-full bg-white border border-gray-300 rounded-lg shadow-lg">
                 <thead>
-                    <tr className="bg-gray-100">
-                        <th className="py-2 px-4 border-b text-center w-1/6">
+                    <tr className="bg-gray-200 text-gray-700">
+                        <th className="py-3 px-4 border-b text-center w-1/6">
                             ID
                         </th>
-                        <th className="py-2 px-4 border-b text-center w-1/3">
+                        <th className="py-3 px-4 border-b text-center w-1/3">
                             Tên
                         </th>
-                        <th className="py-2 px-4 border-b text-center w-1/3">
+                        <th className="py-3 px-4 border-b text-center w-1/3">
                             Chức vụ
                         </th>
-                        <th className="py-2 px-4 border-b text-center w-1/6">
+                        <th className="py-3 px-4 border-b text-center w-1/6">
                             Hành động
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     {employees.map((employee) => (
-                        <tr key={employee._id} className="hover:bg-gray-50">
-                            <td className="py-2 px-4 border-b text-center">
+                        <tr
+                            key={employee._id}
+                            className="hover:bg-gray-50 transition-colors"
+                        >
+                            <td className="py-3 px-4 border-b text-center text-gray-600 font-bold">
                                 {employee.username}
                             </td>
-                            <td className="py-2 px-4 border-b text-center">
+                            <td className="py-3 px-4 border-b text-center text-gray-600 font-bold">
                                 {employee.name}
                             </td>
-                            <td className="py-2 px-4 border-b text-center">
+                            <td className="py-3 px-4 border-b text-center text-gray-600 font-bold">
                                 {employee.role === "nv_ban_hang"
                                     ? "Nhân viên bán hàng"
                                     : employee.role === "ql_kho"
@@ -133,12 +131,24 @@ const UserList = () => {
                                     ? "Admin"
                                     : "Chức vụ khác"}
                             </td>
-                            <td className="py-2 px-4 border-b text-center">
-                                <div className="inline-flex space-x-2">
-                                    {" "}
-                                    {/* Inline và khoảng cách giữa các nút */}
+                            <td className="py-3 px-4 border-b text-center">
+                                <div className="inline-flex items-center space-x-3">
                                     <button
-                                        className="bg-red-500 text-white text-sm px-2 py-1 rounded hover:bg-red-600"
+                                        className="bg-green-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-green-600 transition-colors whitespace-nowrap"
+                                        onClick={() =>
+                                            handleDetail(employee._id)
+                                        }
+                                    >
+                                        Chi tiết
+                                    </button>
+                                    <button
+                                        className="bg-blue-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors whitespace-nowrap"
+                                        onClick={() => handleEdit(employee._id)}
+                                    >
+                                        Chỉnh sửa
+                                    </button>
+                                    <button
+                                        className="bg-red-500 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-red-600 transition-colors whitespace-nowrap"
                                         onClick={() =>
                                             handleDelete(
                                                 employee._id,
@@ -147,12 +157,6 @@ const UserList = () => {
                                         }
                                     >
                                         Xóa NV
-                                    </button>
-                                    <button
-                                        className="bg-blue-500 text-white text-sm px-2 py-1 rounded hover:bg-blue-600"
-                                        onClick={() => handleEdit(employee._id)}
-                                    >
-                                        Chỉnh sửa
                                     </button>
                                 </div>
                             </td>
