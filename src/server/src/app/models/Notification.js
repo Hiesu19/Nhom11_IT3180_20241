@@ -30,12 +30,22 @@ const notificationSchema = new mongoose.Schema(
             enum: ["info", "warning", "success", "error"], // Các loại thông báo có thể có
             default: "info",
         },
+
+        // Ai đã xem
         seenBy: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             },
         ],
+
+        // Gửi tới ai
+        sendTo: {
+            type: [mongoose.Schema.Types.Mixed], // Hỗ trợ ObjectId và string
+            default: function () {
+                return ["all"];
+            },
+        },
     },
     { timestamps: true }
 );
