@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
-import {
-    Route,
-    Routes,
-    useNavigate,
-    BrowserRouter as Router,
-} from "react-router-dom";
+import React from "react";
+import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+
 import Login from "./Components/Login/Login";
 import Layout from "./Components/Layout";
 
@@ -21,6 +17,8 @@ import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
 import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
 import CashPayment from "./Components/Page/CreateInvoicet/CashPayment";
 import BankPayment from "./Components/Page/CreateInvoicet/BankPayment";
+
+import ShowNotification from "./Components/Page/Notification/ShowNotification";
 
 function App() {
     return (
@@ -66,6 +64,10 @@ function App() {
                 <Route
                     path="/product/:id"
                     element={<Layout content={<ProductDetail />} />}
+                />
+                <Route
+                    path="/notification"
+                    element={<Layout content={<ShowNotification />} />}
                 />
             </Routes>
         </Router>

@@ -6,19 +6,16 @@ import {
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
     ShoppingCartIcon,
-    UserIcon,
     UsersIcon,
     ReceiptPercentIcon,
+    BellIcon,
 } from "@heroicons/react/24/outline";
 
-import handleDashboardClick from "./handleDashboardClick";
-import handleProfileClick from "./handleProfileClick";
-import handleSettingsClick from "./handleSettingsClick";
 import handleLogoutClick from "./handleLogoutClick";
 
 const Sidebar = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeItem, setActiveItem] = useState(null);
+    const [activeItem, setActiveItem] = useState("Dashboard");
     const [user, setUser] = useState({});
 
     const navigate = useNavigate();
@@ -48,11 +45,6 @@ const Sidebar = () => {
         user.name
     )}&background=random&color=fff`;
 
-    // Hàm xử lý khi nhấn vào tùy chọn
-    const handleItemClick = (item) => {
-        setActiveItem(item); // Cập nhật tùy chọn đang được chọn
-    };
-
     // Sử dụng useEffect để tự động gập sidebar khi màn hình nhỏ hơn 900px
     useEffect(() => {
         const handleResize = () => {
@@ -78,7 +70,6 @@ const Sidebar = () => {
             name: "Dashboard",
             icon: <HomeIcon className="w-6 h-6" />,
             onClick: () => {
-                handleDashboardClick();
                 setActiveItem("Dashboard");
             },
             link: "/dashboard",
@@ -87,7 +78,6 @@ const Sidebar = () => {
             name: "Quản lý nhân viên",
             icon: <UsersIcon className="w-6 h-6" />,
             onClick: () => {
-                handleProfileClick();
                 setActiveItem("Quản lý nhân viên");
             },
             link: "/employee_management",
@@ -96,7 +86,6 @@ const Sidebar = () => {
             name: "Quản Lý Sản Phẩm",
             icon: <ShoppingCartIcon className="w-6 h-6" />,
             onClick: () => {
-                handleProfileClick();
                 setActiveItem("Quản Lý Sản Phẩm");
             },
             link: "/product_management",
@@ -105,22 +94,22 @@ const Sidebar = () => {
             name: "Tạo hóa đơn",
             icon: <ReceiptPercentIcon className="w-6 h-6" />,
             onClick: () => {
-                handleProfileClick();
                 setActiveItem("Tạo hóa đơn");
             },
             link: "/create_invoicet",
         },
-        // {
-        //     name: "Xem Trước Hóa Đơn",
-        //     icon: <ReceiptPercentIcon className="w-6 h-6" />,
-        //     onClick: () => handleProfileClick(),
-        //     link: "/invoice_preview",
-        // },
+        {
+            name: "Thông báo",
+            icon: <BellIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Thông báo");
+            },
+            link: "/notification",
+        },
         {
             name: "Settings",
             icon: <Cog6ToothIcon className="w-6 h-6" />,
             onClick: () => {
-                handleSettingsClick();
                 setActiveItem("Settings");
             },
             link: "/settings",
