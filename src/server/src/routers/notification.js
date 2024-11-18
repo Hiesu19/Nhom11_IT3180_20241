@@ -15,7 +15,7 @@ router.get(
 router.post(
     "/post",
     middlewareControllers.verifyTokenAndQL_Admin,
-    notificationController.makeNotification
+    notificationController.createNotificationForAll
 );
 
 // Hàm thêm seen thông báo
@@ -23,6 +23,12 @@ router.post(
     "/seen/:id",
     middlewareControllers.verifyToken,
     notificationController.seenNotification
+);
+
+router.post(
+    "/post/:id",
+    middlewareControllers.verifyTokenAndAdmin,
+    notificationController.createNotificationForSomeone
 );
 
 module.exports = router;

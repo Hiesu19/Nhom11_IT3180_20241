@@ -1,4 +1,5 @@
 const Notification = require("../models/Notification");
+const User = require("../models/User");
 
 class NotificationController {
     //GET AllNotification
@@ -28,7 +29,7 @@ class NotificationController {
     };
 
     //POST makeNotification
-    makeNotification = async (req, res) => {
+    createNotificationForAll = async (req, res) => {
         try {
             //Create new Notification
             const newNotification = await new Notification({
@@ -69,6 +70,34 @@ class NotificationController {
             res.status(200).json({
                 message: "Seen notification",
             });
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    };
+
+    // Make noti co riêng ai đó
+    createNotificationForSomeone = async (req, res) => {
+        try {
+            // kiểm tra có người dùng nayd không
+            const recipient = await User.findById(req.params.id);
+            if (!recipient) {
+                return res
+                    .status(404)
+                    .json({ message: "Người nhận không tồn tại" });
+            }
+
+            //Create new Notification
+            const newNotification = await new Notification({
+                author: req.user.id,
+                title: req.body.title,
+                body: req.body.body,
+                type: req.body.type,
+                sendTo: [req.params.id],
+            });
+
+            //Save Database
+            const noti = await newNotification.save();
+            res.status(200).json(noti);
         } catch (error) {
             res.status(500).json(error);
         }
