@@ -10,9 +10,37 @@ class NotificationController {
             // Kiểm tra xem user đã đọc thông báo nào
             const notificationsWithReadStatus = notifications.map(
                 (notification) => {
-                    const isRead = notification.seenBy.includes(
-                        req.user.userid
-                    );
+                    const isRead = notification.seenBy.includes(req.user.id);
+
+                    return {
+                        ...notification.toObject(),
+                        read: isRead, // Thêm trường `read` vào mỗi thông báo
+                    };
+                }
+            );
+
+            res.status(200).json(notificationsWithReadStatus);
+        } catch (error) {
+            console.error("Lỗi khi lấy thông báo:", error);
+            res.status(500).json({ message: "Lỗi máy chủ khi lấy thông báo" });
+        }
+    };
+    //GET AllNotification
+    getMyNotification = async (req, res) => {
+        try {
+            // Tìm thông báo có sendTo là "all" hoặc chứa id của người dùng
+            const notifications = await Notification.find({
+                $or: [
+                    { sendTo: "all" }, // Thông báo gửi đến tất cả
+                    { sendTo: req.user.id },
+                    { sendTo: req.user.role }, // Thông báo gửi đến người dùng hiện tại
+                ],
+            });
+
+            // Kiểm tra xem user đã đọc thông báo nào
+            const notificationsWithReadStatus = notifications.map(
+                (notification) => {
+                    const isRead = notification.seenBy.includes(req.user.id);
 
                     return {
                         ...notification.toObject(),
@@ -93,6 +121,26 @@ class NotificationController {
                 body: req.body.body,
                 type: req.body.type,
                 sendTo: [req.params.id],
+            });
+
+            //Save Database
+            const noti = await newNotification.save();
+            res.status(200).json(noti);
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    };
+
+    //Make noti for admin
+    createNotificationForAdmin = async (req, res) => {
+        try {
+            //Create new Notification
+            const newNotification = await new Notification({
+                author: req.user.id,
+                title: req.body.title,
+                body: req.body.body,
+                type: req.body.type,
+                sendTo: ["admin"],
             });
 
             //Save Database
