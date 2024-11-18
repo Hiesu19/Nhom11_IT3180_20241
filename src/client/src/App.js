@@ -6,9 +6,9 @@ import Layout from "./Components/Layout";
 
 import Dashboard from "./Components/Page/Dashboard/Dashboard";
 
-import UserList from "./Components/Page/Profile/UserList";
-import EditEmployee from "./Components/Page/Profile/EditEmployee";
-import DetailEmployee from "./Components/Page/Profile/DetailEmployee";
+import UserList from "./Components/Page/Employee/UserList";
+import EditEmployee from "./Components/Page/Employee/EditEmployee";
+import DetailEmployee from "./Components/Page/Employee/DetailEmployee";
 
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
 import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
@@ -19,6 +19,8 @@ import CashPayment from "./Components/Page/CreateInvoicet/CashPayment";
 import BankPayment from "./Components/Page/CreateInvoicet/BankPayment";
 
 import ShowNotification from "./Components/Page/Notification/ShowNotification";
+import DetailNotification from "./Components/Page/Notification/DetailNotification";
+import CreateNotification from "./Components/Page/Notification/CreateNotification";
 
 function App() {
     return (
@@ -68,6 +70,14 @@ function App() {
                 <Route
                     path="/notification"
                     element={<Layout content={<ShowNotification />} />}
+                />
+                <Route
+                    path="/notification/seen/:id"
+                    element={<Layout content={<DetailNotification />} />}
+                />
+                <Route
+                    path="/notification/create"
+                    element={<Layout content={<CreateNotification />} />}
                 />
             </Routes>
         </Router>

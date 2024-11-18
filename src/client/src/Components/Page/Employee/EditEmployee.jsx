@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import makeNotificationToSomeone from "../../../Utils/makeNotificationToSomeone";
+
 const EditEmployee = () => {
     const { id } = useParams();
 
@@ -88,6 +90,12 @@ const EditEmployee = () => {
                 }
             );
             if (response) {
+                makeNotificationToSomeone(
+                    "Chỉnh sửa thông tin",
+                    "Đã chỉnh sửa thông tin của bạn thành công",
+                    "success",
+                    id
+                );
                 alert("Cập nhật nhân viên thành công!");
             }
         } catch (error) {

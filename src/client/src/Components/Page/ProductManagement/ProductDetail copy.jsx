@@ -4,7 +4,6 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 import ProductForm from "./ProductForm";
-import makeNotificationToAdmin from "../../../Utils/makeNotificationToAdmin";
 
 const ProductDetail = () => {
     const { id } = useParams();
@@ -143,11 +142,7 @@ const ProductDetail = () => {
 
     // Hàm cập nhập sản phẩm
     const handleSave = async () => {
-        const productBeforeSave = product;
-
-        let changes = [];
-        let stringBodyNoti = "";
-
+        
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             await axios.put(
@@ -159,10 +154,6 @@ const ProductDetail = () => {
                     },
                 }
             );
-
-            // Log sau khi lưu thành công
-            const productAfterSave = editedProduct;
-
             setProduct(editedProduct);
             setIsEditing(false);
             Swal.fire({
@@ -171,33 +162,6 @@ const ProductDetail = () => {
                 icon: "success",
                 confirmButtonText: "OK",
             });
-
-            // Tạo chuỗi sau khi lưu
-
-            for (let key in productBeforeSave) {
-                if (productBeforeSave[key] !== productAfterSave[key]) {
-                    changes.push(
-                        `Trường '${key}' đã thay đổi. ${JSON.stringify(
-                            productBeforeSave[key]
-                        )} ---> ${JSON.stringify(productAfterSave[key])}.`
-                    );
-                }
-            }
-
-            if (changes.length > 0) {
-                for (const change of changes) {
-                    let x = "* " + change + "\n"; // Cộng chuỗi cho mỗi thay đổi
-                    stringBodyNoti = stringBodyNoti + x;
-                }
-            } else {
-                stringBodyNoti = "NULL"; // Nếu không có thay đổi
-            }
-
-            makeNotificationToAdmin(
-                `Cập nhật sản phẩm ${editedProduct.productID}.`,
-                stringBodyNoti,
-                "success"
-            );
         } catch (error) {
             console.error("Lỗi khi cập nhật sản phẩm:", error);
             Swal.fire({
@@ -223,7 +187,7 @@ const ProductDetail = () => {
             if (result.isConfirmed) {
                 try {
                     const token = JSON.parse(localStorage.getItem("user"));
-                    const respone = await axios.delete(
+                    await axios.delete(
                         `http://localhost:8000/v1/app/products/${id}`,
                         {
                             headers: {
@@ -237,11 +201,6 @@ const ProductDetail = () => {
                         icon: "success",
                         confirmButtonText: "OK",
                     });
-                    makeNotificationToAdmin(
-                        "Đã xoá 1 sản phẩm",
-                        ` '${respone.data.auth}' đã xoá sản phẩm ${respone.data.product.productID} (${respone.data.product.name}).`,
-                        "warning"
-                    );
                     navigate(-1); // Quay lại trang trước
                 } catch (error) {
                     console.error("Lỗi khi xoá sản phẩm:", error);
@@ -279,7 +238,9 @@ const ProductDetail = () => {
                 {isEditing ? (
                     <>
                         <button
-                            onClick={() => setIsEditing(!isEditing)} // Điều hướng về trang chi tiết sản phẩm
+                            onClick={() =>
+                                setIsEditing(!isEditing)
+                            } // Điều hướng về trang chi tiết sản phẩm
                             className="px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-all duration-200"
                         >
                             Huỷ
