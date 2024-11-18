@@ -11,6 +11,18 @@ router.get(
     userController.getAllUsers
 );
 
+router.get(
+    "/:id",
+    middlewareControllers.verifyTokenAndAdmin,
+    userController.getUser
+);
+
+router.post(
+    "/:id",
+    middlewareControllers.verifyTokenAndAdmin,
+    userController.updateUser
+);
+
 //Xoá nhân viên
 router.delete(
     "/:id",
