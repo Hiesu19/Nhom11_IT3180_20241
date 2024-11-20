@@ -137,16 +137,27 @@ function CreateInvoice() {
     // Lọc sản phẩm theo từ khóa (có dấu hoặc không dấu)
     const filteredProducts = searchTerm
         ? productList.filter((product) => {
+              const barcode = product.productInfo?.barcode?.toLowerCase() || ""; // Lấy barcode, nếu không có thì gán chuỗi rỗng
+              const productID = product.productID.toLowerCase();
               const productName = product.name.toLowerCase();
-              const search = searchTerm.trim().toLowerCase(); // Loại bỏ khoảng trắng thừa
-              const productWithoutAccents = unidecode(productName); // Không dấu tên sản phẩm
-              const searchWithoutAccents = unidecode(search); // Không dấu từ khóa tìm kiếm
+              const search = searchTerm.trim().toLowerCase();
+              const productWithoutAccents = unidecode(productName);
+              const searchWithoutAccents = unidecode(search);
 
+              // Ưu tiên tìm theo barcode
+              if (barcode.includes(search)) {
+                  return true;
+              }
+
+              // Tiếp tục tìm theo productID
+              if (productID.includes(search)) {
+                  return true;
+              }
+
+              // Cuối cùng, tìm theo name
               if (search !== searchWithoutAccents) {
-                  // Nếu từ khóa có dấu, chỉ lọc sản phẩm có dấu
                   return productName.includes(search);
               } else {
-                  // Nếu không có dấu, tìm kiếm không phân biệt dấu
                   return productWithoutAccents.includes(searchWithoutAccents);
               }
           })
@@ -193,9 +204,15 @@ function CreateInvoice() {
                                     className="flex items-center justify-between p-2 border border-gray-300 mb-2"
                                 >
                                     <div>
+                                        <strong>{product.productID}</strong>
+                                        <br />
                                         <strong>{product.name}</strong>
                                         <p>Giá: {product.prices.price} VND</p>
                                         <p>Tồn kho: {product.stock}</p>
+                                        <p>
+                                            Barcode:{" "}
+                                            {product.productInfo.barcode}
+                                        </p>
                                     </div>
                                     <div className="flex items-center">
                                         <input
