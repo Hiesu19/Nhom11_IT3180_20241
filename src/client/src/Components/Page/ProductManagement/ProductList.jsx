@@ -117,6 +117,14 @@ const ProductManagement = () => {
 
     return (
         <div className="p-4">
+            <div className="flex justify-end mb-4">
+            <button
+                onClick={() => navigate("/product_management/add_product")}
+                className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+            >
+                Thêm sản phẩm
+            </button>
+        </div>
             <div className="flex items-center p-4 bg-gray-200">
                 <input
                     type="text"
@@ -124,6 +132,7 @@ const ProductManagement = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     className="p-2 border border-gray-300 rounded w-full text-sm"
                 />
+                
             </div>
 
             <table className="w-full text-left mt-4 border border-gray-300">

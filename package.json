@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "sweetalert2": "^11.14.4"
-  }
-}

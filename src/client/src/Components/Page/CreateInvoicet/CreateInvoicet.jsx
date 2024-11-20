@@ -204,10 +204,16 @@ function CreateInvoice() {
                                     className="flex items-center justify-between p-2 border border-gray-300 mb-2"
                                 >
                                     <div>
-                                        <strong>{product.productID}</strong>
-                                        <br />
-                                        <strong>{product.name}</strong>
-                                        <p>Giá: {product.prices.price} VND</p>
+                                        <strong>
+                                            {product.productID}: {product.name}
+                                        </strong>
+
+                                        <p>
+                                            Giá:{" "}
+                                            <strong>
+                                                {product.prices.price} VND
+                                            </strong>{" "}
+                                        </p>
                                         <p>Tồn kho: {product.stock}</p>
                                         <p>
                                             Barcode:{" "}
@@ -250,6 +256,8 @@ function CreateInvoice() {
                 <table className="w-full border border-gray-300 mt-6 table-auto">
                     <thead>
                         <tr className="bg-gray-200 text-gray-700">
+                            <th className="px-4 py-2 border">STT</th>
+                            <th className="px-4 py-2 border">Mã SP</th>
                             <th className="px-4 py-2 border">Tên Sản Phẩm</th>
                             <th className="px-4 py-2 border">Số Lượng</th>
                             <th className="px-4 py-2 border">Giá</th>
@@ -259,6 +267,12 @@ function CreateInvoice() {
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index}>
+                                <td className="px-4 py-2 border">
+                                    <strong>{index + 1}</strong>
+                                </td>
+                                <td className="px-4 py-2 border">
+                                    {item.productID}
+                                </td>
                                 <td className="px-4 py-2 border">
                                     {item.product}
                                 </td>

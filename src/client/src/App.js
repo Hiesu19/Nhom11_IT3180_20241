@@ -12,6 +12,7 @@ import DetailEmployee from "./Components/Page/Employee/DetailEmployee";
 
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
 import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
+import AddProduct from "./Components/Page/ProductManagement/AddProduct";
 
 import CreateInvoicet from "./Components/Page/CreateInvoicet/CreateInvoicet";
 import InvoicePreview from "./Components/Page/CreateInvoicet/InvoicePreview";
@@ -62,6 +63,10 @@ function App() {
                 <Route
                     path="/product_management"
                     element={<Layout content={<ProductManagement />} />}
+                />
+                <Route
+                    path="/product_management/add_product"
+                    element={<Layout content={<AddProduct />} />}
                 />
                 <Route
                     path="/product/:id"
