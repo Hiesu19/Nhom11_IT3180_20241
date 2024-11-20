@@ -11,6 +11,9 @@ function InvoicePreview() {
             state: { items, total, paymentMethod: method },
         });
     };
+    const handleBack = () => {
+        navigate(-1);
+    };
 
     return (
         <div className="bg-gray-100 min-h-screen flex items-center justify-center p-5">
@@ -53,6 +56,12 @@ function InvoicePreview() {
                 </div>
 
                 <div className="flex justify-between mt-4 space-x-4">
+                    <button
+                        onClick={() => handleBack()}
+                        className="w-1/2 px-4 py-2 rounded bg-red-500 text-white"
+                    >
+                        Quay lại
+                    </button>
                     <button
                         onClick={() => handlePaymentMethodChange("cash")}
                         className="w-1/2 px-4 py-2 rounded bg-blue-500 text-white"
