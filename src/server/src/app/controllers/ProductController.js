@@ -13,7 +13,7 @@ class ProductController {
         try {
             const products = await Product.find().populate({
                 path: "promotions",
-                select: "_id",
+                select: "_id, startTime endTime discount",
             });
 
             const enrichedProducts = products.map((product) => {
@@ -60,7 +60,7 @@ class ProductController {
         try {
             const product = await Product.findById(req.params.id).populate({
                 path: "promotions",
-                select: "_id", // Chỉ lấy trường _id
+                select: "_id, startTime endTime discount",
             });
 
             if (!product) {
