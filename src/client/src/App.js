@@ -9,6 +9,7 @@ import Dashboard from "./Components/Page/Dashboard/Dashboard";
 import UserList from "./Components/Page/Employee/UserList";
 import EditEmployee from "./Components/Page/Employee/EditEmployee";
 import DetailEmployee from "./Components/Page/Employee/DetailEmployee";
+import AddEmployee from "./Components/Page/Employee/AddEmployee";
 
 import ProductManagement from "./Components/Page/ProductManagement/ProductList";
 import ProductDetail from "./Components/Page/ProductManagement/ProductDetail";
@@ -39,6 +40,10 @@ function App() {
                 <Route
                     path="/employee_management/edit/:id"
                     element={<Layout content={<EditEmployee />} />}
+                />
+                <Route
+                    path="/employee_management/add"
+                    element={<Layout content={<AddEmployee />} />}
                 />
                 <Route
                     path="/employee_management/detail/:id"
