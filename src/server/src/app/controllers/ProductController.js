@@ -1,23 +1,102 @@
 const Product = require("../models/Product");
 
 class ProductController {
-    //GET get all products
+    isWithinPromotionPeriod = (startTime, endTime) => {
+        const now = new Date();
+        const start = new Date(startTime);
+        const end = new Date(endTime);
+        return now >= start && now <= end; // Kiểm tra nếu now nằm trong khoảng start đến end
+    };
+
+    // GET all products
     getAllProducts = async (req, res) => {
         try {
-            const products = await Product.find();
-            res.status(200).json(products);
+            const products = await Product.find().populate({
+                path: "promotions",
+                select: "_id",
+            });
+
+            const enrichedProducts = products.map((product) => {
+                let discountRate = 0;
+
+                // Lọc các khuyến mãi hợp lệ
+                const validPromotions = product.promotions.filter((promotion) =>
+                    this.isWithinPromotionPeriod(
+                        promotion.startTime,
+                        promotion.endTime
+                    )
+                );
+
+                validPromotions.forEach((promotion) => {
+                    const rate = parseFloat(
+                        promotion.discount.replace("%", "")
+                    );
+                    discountRate += rate;
+                });
+
+                // Giới hạn discountRate không vượt quá 100%
+                discountRate = Math.min(discountRate, 100);
+
+                // Tính giá sau khi giảm giá
+                const discountedPrice =
+                    product.prices.price * (1 - discountRate / 100);
+
+                return {
+                    ...product.toObject(),
+                    discountRate: `${discountRate}%`,
+                    discountedPrice: discountedPrice.toFixed(2),
+                };
+            });
+
+            res.status(200).json(enrichedProducts);
         } catch (error) {
-            res.status(500).json(error);
+            console.error(error);
+            res.status(500).json({ message: "Internal server error", error });
         }
     };
 
-    //GET product by id
+    // GET product by id
     getProductsByID = async (req, res) => {
         try {
-            const products = await Product.findById(req.params.id);
-            res.status(200).json(products);
+            const product = await Product.findById(req.params.id).populate({
+                path: "promotions",
+                select: "_id", // Chỉ lấy trường _id
+            });
+
+            if (!product) {
+                return res
+                    .status(404)
+                    .json({ message: "Product not found !!!" });
+            }
+
+            let discountRate = 0;
+            const validPromotions = product.promotions.filter((promotion) =>
+                this.isWithinPromotionPeriod(
+                    promotion.startTime,
+                    promotion.endTime
+                )
+            );
+
+            validPromotions.forEach((promotion) => {
+                const rate = parseFloat(promotion.discount.replace("%", ""));
+                discountRate += rate; // Cộng dồn
+            });
+
+            // Giới hạn discountRate không vượt quá 100%
+            discountRate = Math.min(discountRate, 100);
+
+            // Tính giá sau khi giảm giá
+            const discountedPrice =
+                product.prices.price * (1 - discountRate / 100);
+
+            res.status(200).json({
+                ...product.toObject(),
+                discountRate: `${discountRate}%`,
+                discountedPrice: discountedPrice.toFixed(2),
+            });
         } catch (error) {
-            res.status(500).json(error);
+            console.error(error);
+            res.status(500).json({ message: "Error" });
         }
     };
 
@@ -87,14 +166,12 @@ class ProductController {
 
     updateProduct = async (req, res) => {
         try {
-            // Tìm và cập nhật khóa học
             const updatedProduct = await Product.findByIdAndUpdate(
                 req.params.id,
                 req.body,
                 { new: true } // Trả về tài liệu đã được cập nhật
             );
 
-            // Kiểm tra xem có khóa học nào được tìm thấy hay không
             if (!updatedProduct) {
                 return res
                     .status(404)
