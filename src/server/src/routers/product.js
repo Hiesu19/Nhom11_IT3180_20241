@@ -18,6 +18,12 @@ router.get(
     productController.getProductsByID
 );
 
+router.get(
+    "/info",
+    middlewareControllers.verifyToken,
+    productController.getProductsByIDs
+);
+
 //Thêm hàng vào kho
 router.post(
     "/add_product",

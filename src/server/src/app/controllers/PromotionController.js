@@ -11,6 +11,22 @@ class PromotionController {
         }
     };
 
+    getPromotionByID = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const promotion = await Promotion.findById(id);
+            if (!promotion) {
+                return res
+                    .status(404)
+                    .json({ message: "Promotion not found!" });
+            }
+            res.status(200).json(promotion);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Error", error });
+        }
+    };
+
     // Thêm khuyến mãi mới
     addPromotion = async (req, res) => {
         try {
