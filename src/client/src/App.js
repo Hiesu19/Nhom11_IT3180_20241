@@ -24,6 +24,8 @@ import ShowNotification from "./Components/Page/Notification/ShowNotification";
 import DetailNotification from "./Components/Page/Notification/DetailNotification";
 import CreateNotification from "./Components/Page/Notification/CreateNotification";
 
+import PromotionList from "./Components/Page/Promotion/PromotionList";
+
 function App() {
     return (
         <Router>
@@ -88,6 +90,11 @@ function App() {
                 <Route
                     path="/notification/create"
                     element={<Layout content={<CreateNotification />} />}
+                />
+
+                <Route
+                    path="/promotion"
+                    element={<Layout content={<PromotionList />} />}
                 />
             </Routes>
         </Router>

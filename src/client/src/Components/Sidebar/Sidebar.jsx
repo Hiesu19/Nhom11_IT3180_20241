@@ -9,6 +9,7 @@ import {
     UsersIcon,
     ReceiptPercentIcon,
     BellIcon,
+    TicketIcon,
 } from "@heroicons/react/24/outline";
 
 import handleLogoutClick from "./handleLogoutClick";
@@ -107,12 +108,12 @@ const Sidebar = () => {
             link: "/notification",
         },
         {
-            name: "Settings",
-            icon: <Cog6ToothIcon className="w-6 h-6" />,
+            name: "Khuyến mãi",
+            icon: <TicketIcon className="w-6 h-6" />,
             onClick: () => {
-                setActiveItem("Settings");
+                setActiveItem("Khuyến mãi");
             },
-            link: "/settings",
+            link: "/promotion",
         },
         {
             name: "Logout",
@@ -148,7 +149,6 @@ const Sidebar = () => {
                 >
                     3D2H Lab
                 </div>
-                
             </div>
 
             {/* Navigation links với khả năng cuộn */}
