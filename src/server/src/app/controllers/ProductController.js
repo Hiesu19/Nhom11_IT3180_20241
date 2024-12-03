@@ -44,7 +44,7 @@ class ProductController {
                 return {
                     ...product.toObject(),
                     discountRate: `${discountRate}%`,
-                    discountedPrice: discountedPrice.toFixed(2),
+                    discountedPrice: discountedPrice.toFixed(0),
                 };
             });
 
@@ -92,7 +92,7 @@ class ProductController {
             res.status(200).json({
                 ...product.toObject(),
                 discountRate: `${discountRate}%`,
-                discountedPrice: discountedPrice.toFixed(2),
+                discountedPrice: discountedPrice.toFixed(0),
             });
         } catch (error) {
             console.error(error);

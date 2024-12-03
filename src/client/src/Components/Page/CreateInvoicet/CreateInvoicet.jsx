@@ -40,25 +40,25 @@ function CreateInvoice() {
         if (!product || !quantity[product._id] || quantity[product._id] <= 0)
             return;
 
-        // Tính tổng số lượng sản phẩm trong giỏ hàng
         const existingItem = items.find(
             (item) => item.product === product.name
         );
         const totalQuantityInCart = existingItem ? existingItem.quantity : 0;
         const requestedQuantity = Number(quantity[product._id]);
 
-        // Kiểm tra nếu tổng số lượng vượt quá số lượng tồn kho
         if (totalQuantityInCart + requestedQuantity > product.stock) {
             const availableQuantity = product.stock - totalQuantityInCart;
             setErrorMessage(
                 `Số lượng yêu cầu vượt quá số lượng tồn kho! Tồn kho còn lại: ${availableQuantity}`
             );
-            setQuantity({ ...quantity, [product._id]: availableQuantity }); // Cập nhật lại số lượng nhập vào theo số lượng còn lại
+            setQuantity({ ...quantity, [product._id]: availableQuantity });
             return;
         }
 
+        const discountRate = product.discountRate || 0; // Giả sử discountRate được cung cấp trong product.prices
+        const discountedPrice = product.discountedPrice;
+
         if (existingItem) {
-            // Nếu sản phẩm đã có trong giỏ, cập nhật số lượng và tổng tiền
             const updatedItems = items.map((item) =>
                 item.product === product.name
                     ? {
@@ -66,31 +66,31 @@ function CreateInvoice() {
                           quantity: item.quantity + requestedQuantity,
                           total:
                               (item.quantity + requestedQuantity) *
-                              product.prices.price,
+                              discountedPrice,
                       }
                     : item
             );
             setItems(updatedItems);
             setTotal(updatedItems.reduce((sum, item) => sum + item.total, 0));
         } else {
-            // Nếu sản phẩm chưa có trong giỏ, thêm sản phẩm mới
             const newItem = {
-                _id: product._id, // Thêm _id
-                productID: product.productID, // Thêm productID
+                _id: product._id,
+                productID: product.productID,
                 product: product.name,
                 quantity: requestedQuantity,
                 price: product.prices.price,
-                total: requestedQuantity * product.prices.price,
+                discountRate, // Thêm discountRate vào
+                discountedPrice, // Thêm discountedPrice vào
+                total: requestedQuantity * discountedPrice,
             };
             setItems([...items, newItem]);
             setTotal(total + newItem.total);
         }
 
-        // Không reset giá trị số lượng sau khi thêm vào giỏ, chỉ reset cho sản phẩm đã được thêm
         setQuantity({ ...quantity, [product._id]: "" });
-        setSearchTerm(""); // Reset từ khóa tìm kiếm sau khi thêm vào giỏ
-        setIsSearching(false); // Ẩn danh sách sản phẩm sau khi thêm vào giỏ
-        setErrorMessage(""); // Reset thông báo lỗi
+        setSearchTerm("");
+        setIsSearching(false);
+        setErrorMessage("");
     };
 
     const handleQuantityChange = (e, productId) => {
@@ -211,7 +211,7 @@ function CreateInvoice() {
                                         <p>
                                             Giá:{" "}
                                             <strong>
-                                                {product.prices.price} VND
+                                                {product.discountedPrice} VND
                                             </strong>{" "}
                                         </p>
                                         <p>Tồn kho: {product.stock}</p>
@@ -260,15 +260,17 @@ function CreateInvoice() {
                             <th className="px-4 py-2 border">Mã SP</th>
                             <th className="px-4 py-2 border">Tên Sản Phẩm</th>
                             <th className="px-4 py-2 border">Số Lượng</th>
-                            <th className="px-4 py-2 border">Giá</th>
-                            <th className="px-4 py-2 border">Tổng</th>
+                            <th className="px-4 py-2 border">Giá ban đầu</th>
+                            <th className="px-4 py-2 border">Chiết khấu</th>
+                            <th className="px-4 py-2 border">Giá KM</th>
+                            <th className="px-4 py-2 border">Thanh tiền</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index}>
                                 <td className="px-4 py-2 border">
-                                    <strong>{index + 1}</strong>
+                                    {index + 1}
                                 </td>
                                 <td className="px-4 py-2 border">
                                     {item.productID}
@@ -281,6 +283,12 @@ function CreateInvoice() {
                                 </td>
                                 <td className="px-4 py-2 border">
                                     {item.price} VND
+                                </td>
+                                <td className="px-4 py-2 border">
+                                    {item.discountRate}
+                                </td>
+                                <td className="px-4 py-2 border">
+                                    {item.discountedPrice} VND
                                 </td>
                                 <td className="px-4 py-2 border">
                                     {item.total} VND

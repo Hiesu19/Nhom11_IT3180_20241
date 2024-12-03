@@ -53,7 +53,10 @@ function Login() {
         <div className="flex min-h-screen">
             {/* Phần bên trái hiển thị tên phần mềm */}
             <div className="flex flex-1 bg-blue-500 justify-center items-center">
-                <h1 className="text-white text-5xl font-bold">CoddingLab</h1>
+                <h1 className="text-5xl font-bold">
+                    <span className="text-purple-300 text-7xl">3D2H</span>{" "}
+                    <span className="text-white text-4xl">SuperMarket</span>
+                </h1>
             </div>
 
             {/* Phần bên phải là form đăng nhập */}

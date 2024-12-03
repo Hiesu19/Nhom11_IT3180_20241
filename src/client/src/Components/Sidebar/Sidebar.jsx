@@ -142,12 +142,13 @@ const Sidebar = () => {
                 </button>
                 {/* Tên ứng dụng */}
                 <div
-                    className={`text-lg font-bold ${
+                    className={` text-lg font-bold ${
                         isCollapsed ? "hidden" : "block"
                     }`}
                 >
-                    Codinglab
+                    3D2H Lab
                 </div>
+                
             </div>
 
             {/* Navigation links với khả năng cuộn */}

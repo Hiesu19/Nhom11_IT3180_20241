@@ -229,7 +229,10 @@ function BankPayment() {
                         <thead>
                             <tr className="bg-gray-200">
                                 <th className="border border-gray-300 px-4 py-2">
-                                    #
+                                    STT
+                                </th>
+                                <th className="border border-gray-300 px-4 py-2">
+                                    Mã SP
                                 </th>
                                 <th className="border border-gray-300 px-4 py-2">
                                     Tên sản phẩm
@@ -238,7 +241,10 @@ function BankPayment() {
                                     Số lượng
                                 </th>
                                 <th className="border border-gray-300 px-4 py-2">
-                                    Giá
+                                    Chiết khấu
+                                </th>
+                                <th className="border border-gray-300 px-4 py-2">
+                                    Thanh tiền
                                 </th>
                             </tr>
                         </thead>
@@ -249,13 +255,20 @@ function BankPayment() {
                                         {index + 1}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2">
+                                        {item.productID}
+                                    </td>
+                                    <td className="border border-gray-300 px-4 py-2">
                                         {item.product}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2 text-center">
                                         {item.quantity}
                                     </td>
+                                    <td className="border border-gray-300 px-4 py-2 text-center">
+                                        {item.discountRate}
+                                    </td>
                                     <td className="border border-gray-300 px-4 py-2 text-right">
-                                        {item.price} VND
+                                        {item.quantity * item.discountedPrice}{" "}
+                                        VND
                                     </td>
                                 </tr>
                             ))}

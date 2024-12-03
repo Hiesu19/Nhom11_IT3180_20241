@@ -25,15 +25,24 @@ function InvoicePreview() {
                 <table className="w-full border border-gray-300 mt-6 table-auto">
                     <thead>
                         <tr className="bg-gray-200 text-gray-700">
+                            <th className="px-4 py-2 border">STT</th>
+                            <th className="px-4 py-2 border">Mã SP</th>
                             <th className="px-4 py-2 border">Tên Sản Phẩm</th>
                             <th className="px-4 py-2 border">Số Lượng</th>
-                            <th className="px-4 py-2 border">Giá</th>
+                            <th className="px-4 py-2 border">Giá gốc</th>
+                            <th className="px-4 py-2 border">Chiết khấu</th>
                             <th className="px-4 py-2 border">Tổng</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.map((item, index) => (
                             <tr key={index}>
+                                <td className="border px-4 py-2">
+                                    {index + 1}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    {item.productID}
+                                </td>
                                 <td className="border px-4 py-2">
                                     {item.product}
                                 </td>
@@ -42,6 +51,9 @@ function InvoicePreview() {
                                 </td>
                                 <td className="border px-4 py-2">
                                     {item.price}
+                                </td>
+                                <td className="border px-4 py-2">
+                                    {item.discountRate}
                                 </td>
                                 <td className="border px-4 py-2">
                                     {item.total}
