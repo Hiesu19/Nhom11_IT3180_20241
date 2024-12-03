@@ -100,6 +100,63 @@ class ProductController {
         }
     };
 
+    getProductsByIDs = async (req, res) => {
+        try {
+            // Lấy danh sách ID từ body request
+            const { ids } = req.body; // ids là mảng chứa các ID
+    
+            if (!Array.isArray(ids) || ids.length === 0) {
+                return res.status(400).json({ message: "Invalid product IDs!" });
+            }
+    
+            // Lấy danh sách sản phẩm dựa trên danh sách ID
+            const products = await Product.find({ _id: { $in: ids } }).populate({
+                path: "promotions",
+                select: "_id startTime endTime discount",
+            });
+    
+            // Nếu không tìm thấy sản phẩm nào
+            if (products.length === 0) {
+                return res.status(404).json({ message: "No products found!" });
+            }
+    
+            // Tính toán discount cho từng sản phẩm
+            const response = products.map((product) => {
+                let discountRate = 0;
+                const validPromotions = product.promotions.filter((promotion) =>
+                    this.isWithinPromotionPeriod(
+                        promotion.startTime,
+                        promotion.endTime
+                    )
+                );
+    
+                validPromotions.forEach((promotion) => {
+                    const rate = parseFloat(promotion.discount.replace("%", ""));
+                    discountRate += rate; // Cộng dồn
+                });
+    
+                // Giới hạn discountRate không vượt quá 100%
+                discountRate = Math.min(discountRate, 100);
+    
+                // Tính giá sau khi giảm giá
+                const discountedPrice =
+                    product.prices.price * (1 - discountRate / 100);
+    
+                return {
+                    ...product.toObject(),
+                    discountRate: `${discountRate}%`,
+                    discountedPrice: discountedPrice.toFixed(0),
+                };
+            });
+    
+            res.status(200).json(response);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: "Error" });
+        }
+    };
+    
+
     //POST post product
     addProduct = async (req, res) => {
         try {

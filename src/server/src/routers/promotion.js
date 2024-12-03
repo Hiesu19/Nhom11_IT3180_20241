@@ -11,6 +11,13 @@ router.get(
     promotionController.getAllPromotions
 );
 
+//Lấy thông tin KM bằng ID
+router.get(
+    "/:id",
+    middlewareControllers.verifyTokenAndAdmin,
+    promotionController.getPromotionByID
+);
+
 // Tạo km
 router.post(
     "/add-promition",
