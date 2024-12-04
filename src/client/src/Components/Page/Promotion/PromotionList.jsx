@@ -146,7 +146,7 @@ const PromotionList = () => {
                             key={promotion._id}
                             className="p-4 border rounded-lg shadow-lg hover:shadow-xl transition duration-200 cursor-pointer"
                             onClick={() =>
-                                navigate(`/promotion/${promotion.promotionID}`)
+                                navigate(`/promotion/${promotion._id}`)
                             }
                         >
                             <h2 className="text-xl font-semibold">

@@ -18,7 +18,7 @@ router.get(
     productController.getProductsByID
 );
 
-router.get(
+router.post(
     "/info",
     middlewareControllers.verifyToken,
     productController.getProductsByIDs
