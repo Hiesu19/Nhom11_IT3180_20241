@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+const { v4: uuidv4 } = require("uuid");
 
 const promotionSchema = new mongoose.Schema(
     {
-        // Mã khuyến mãi (dạng KM_00001)
+        // Mã khuyến mãi (dạng KM_XXXXXXXX)
         promotionID: {
             type: String,
             unique: true,
@@ -56,13 +56,9 @@ const promotionSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-promotionSchema.plugin(AutoIncrement, { inc_field: "tempPromotionID" });
-
-promotionSchema.pre("save", async function (next) {
+promotionSchema.pre("save", function (next) {
     if (!this.promotionID) {
-        const counter = await mongoose.model("Promotion").countDocuments();
-        const newID = counter + 1; // Tăng số đếm
-        this.promotionID = `KM_${newID.toString().padStart(5, "0")}`;
+        this.promotionID = `KM_${uuidv4().slice(0, 8).toUpperCase()}`;
     }
     next();
 });
