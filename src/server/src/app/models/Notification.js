@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
+const { v4: uuidv4 } = require("uuid");
 
 const notificationSchema = new mongoose.Schema(
     {
         // Mã thông báo
         notificationID: {
-            type: Number,
+            type: String,
             unique: true,
         },
 
@@ -50,6 +50,11 @@ const notificationSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-notificationSchema.plugin(AutoIncrement, { inc_field: "notificationID" }); // NotificationId tự động tăng 1
+notificationSchema.pre("save", function (next) {
+    if (!this.notificationID) {
+        this.notificationID = `TB_${uuidv4().slice(0, 8).toUpperCase()}`;
+    }
+    next();
+});
 
 module.exports = mongoose.model("Notification", notificationSchema);
