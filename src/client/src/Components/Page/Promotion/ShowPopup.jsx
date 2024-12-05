@@ -20,7 +20,7 @@ const ShowPopup = ({ products, closePopup }) => {
 
     const handleProductsPerPageChange = (event) => {
         setProductsPerPage(event.target.value);
-        setCurrentPage(1); // Reset về trang đầu khi thay đổi số sản phẩm
+        setCurrentPage(1);
     };
 
     return (

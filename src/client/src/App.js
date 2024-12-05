@@ -26,6 +26,7 @@ import CreateNotification from "./Components/Page/Notification/CreateNotificatio
 
 import PromotionList from "./Components/Page/Promotion/PromotionList";
 import PromotionDetail from "./Components/Page/Promotion/PromotionDetail";
+import AddPromotion from "./Components/Page/Promotion/AddPromotion";
 
 function App() {
     return (
@@ -95,6 +96,10 @@ function App() {
                 <Route
                     path="/promotion"
                     element={<Layout content={<PromotionList />} />}
+                />
+                <Route
+                    path="/promotion/add"
+                    element={<Layout content={<AddPromotion />} />}
                 />
                 <Route
                     path="/promotion/:id"

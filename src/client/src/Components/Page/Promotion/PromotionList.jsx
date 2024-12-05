@@ -120,7 +120,7 @@ const PromotionList = () => {
                     </button>
                 </div>
                 <button
-                    onClick={() => navigate("/promotion/create")}
+                    onClick={() => navigate("/promotion/add")}
                     className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200"
                 >
                     Tạo khuyến mãi
