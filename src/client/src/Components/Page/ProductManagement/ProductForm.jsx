@@ -135,6 +135,10 @@ const ProductForm = ({ product, isEditing, handleInputChange }) => {
                             <strong>Giá bán:</strong> {product.prices.price}
                         </p>
                         <p>
+                            <strong>Giá bán sau khuyễn mãi :</strong>{" "}
+                            {product.discountedPrice}
+                        </p>
+                        <p>
                             <strong>Giá nhập:</strong>{" "}
                             {product.prices.purchasePrice}
                         </p>

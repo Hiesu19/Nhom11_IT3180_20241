@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import SetedProductPopup from "./SetedProductPopup";
 import axios from "axios";
 import Swal from "sweetalert2";
+import makeNotificationToAll from "../../../Utils/makeNotificationToAll";
 
 const AddPromotion = () => {
     const navigate = useNavigate();
@@ -127,8 +128,18 @@ const AddPromotion = () => {
                     title: "Success",
                     text: "Đã thêm khuyễn mãi thành công!",
                 });
+                const promotionId = String(response.data.promotion._id);
 
-                // Optionally reset form or navigate away
+                makeNotificationToAll(
+                    `Đã tạo 1 khuyến mãi mới ${formData.title}.`,
+                    `Giảm ${parseFloat(formData.discount)}% cho ${
+                        formData.appliedProducts.length
+                    } sản phẩm: Bắt đầu từ ${formData.startTime} đến ${
+                        formData.endTime
+                    }. Liên kết: http://localhost:3000/promotion/${promotionId}`,
+                    "success"
+                );
+
                 setFormData({
                     title: "",
                     description: "",

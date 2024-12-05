@@ -62,10 +62,6 @@ const PromotionDetail = () => {
         return "Đang chạy";
     };
 
-    const handleEditPromotion = () => {
-        navigate(`/promotion/edit/${id}`);
-    };
-
     const handleDeletePromotion = async () => {
         const confirmDelete = await Swal.fire({
             title: "Xác nhận xóa",
@@ -244,12 +240,6 @@ const PromotionDetail = () => {
 
             {/* Nút thao tác */}
             <div className="mt-6 flex justify-between">
-                <button
-                    onClick={handleEditPromotion}
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                    Chỉnh sửa
-                </button>
                 <button
                     onClick={handleDeletePromotion}
                     className="bg-red-500 text-white px-4 py-2 rounded"
