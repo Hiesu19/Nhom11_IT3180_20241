@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Line } from "react-chartjs-2";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler,
-} from "chart.js";
 import {
     CubeIcon,
     ShoppingCartIcon,
@@ -20,50 +8,28 @@ import {
     InboxStackIcon,
 } from "@heroicons/react/24/outline";
 
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
-);
+import RevenueChart from "./RevenueChart";
 
 const Dashboard = () => {
-    // State lưu trữ dữ liệu
-    const [overviewData, setOverviewData] = useState({
-        orders: 0,
-        revenue: 0,
-        productsInStock: 0,
-        customers: 0,
-    });
-
-    // State lưu lỗi
+    const [overviewData, setOverviewData] = useState(null); // Khởi tạo là null
     const [error, setError] = useState(null);
 
-    // // Lấy data Dashboard
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const storedToken = JSON.parse(localStorage.getItem("user"));
-
+                const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
                     "http://localhost:8000/v1/app/dashboard",
                     {
                         headers: {
-                            token: `Bearer ${storedToken.accessToken}`,
+                            token: `Bearer ${token.accessToken}`,
                         },
                     }
                 );
+
                 const data = response.data;
-                setOverviewData({
-                    productCount: data.productCount,
-                    totalValue: data.totalValue,
-                    totalProduct: data.totalProducts,
-                    userCount: data.userCount,
-                });
+
+                setOverviewData(data);
             } catch (err) {
                 console.error("Error fetching overview data:", err);
                 setError(
@@ -75,36 +41,14 @@ const Dashboard = () => {
         fetchData();
     }, []);
 
-    // Dữ liệu cho biểu đồ doanh thu
-    const data = {
-        labels: [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-        ],
-        datasets: [
-            {
-                label: "Sales",
-                data: [12000, 15000, 11000, 17000, 14000, 19000, 16000],
-                borderColor: "rgba(37, 99, 235, 1)",
-                backgroundColor: "rgba(37, 99, 235, 0.2)",
-                fill: true,
-            },
-        ],
-    };
+    if (error) {
+        return <div>{error}</div>;
+    }
 
-    const options = {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true,
-            },
-        },
-    };
+    if (!overviewData) {
+        return <div>Loading...</div>;
+    }
+    console.log(overviewData);
 
     return (
         <div className="min-h-screen bg-gray-100 p-6">
@@ -147,14 +91,7 @@ const Dashboard = () => {
                     value={overviewData.userCount}
                 />
             </div>
-
-            {/* Sales Overview Chart */}
-            <div className="bg-white p-6 rounded-lg shadow">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                    Sales Overview
-                </h3>
-                <Line data={data} options={options} />
-            </div>
+            {/* <RevenueChart data={overviewData.invoiceAndRevenueByDate} /> */}
         </div>
     );
 };
