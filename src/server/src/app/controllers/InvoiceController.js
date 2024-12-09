@@ -1,7 +1,7 @@
 const Invoice = require("../models/Invoice");
 
 class InvoiceController {
-    // Save Invoice
+    // Lưu hoá đơn
     saveInvoice = async (req, res) => {
         try {
             const { invoiceID, items, paymentMethod, totalAmount } = req.body;
@@ -11,7 +11,6 @@ class InvoiceController {
                     .json({ message: "Missing required fields" });
             }
 
-            // Create a new invoice
             const newInvoice = new Invoice({
                 employee: req.user.id,
                 invoiceID,
@@ -20,21 +19,41 @@ class InvoiceController {
                 paymentMethod,
             });
 
-            // Save to database
             const invoice = await newInvoice.save();
 
-            // Respond with the saved invoice
             res.status(200).json(invoice);
         } catch (error) {
             res.status(500).json({ message: "Error saving invoice", error });
         }
     };
 
-    //Get all invoice
+    // Lấy toàn bộ hoá đơn
     getAllInvoices = async (req, res) => {
         try {
-            const invoices = await Invoice.find();
-            res.status(200).json(invoices);
+            const invoices = await Invoice.aggregate([
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "employee",
+                        foreignField: "_id",
+                        as: "employeeDetails",
+                    },
+                },
+                {
+                    $unwind: "$employeeDetails",
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        invoiceID: 1,
+                        items: 1,
+                        totalAmount: 1,
+                        paymentMethod: 1,
+                        employee: "$employeeDetails.username",
+                        createdAt: 1,
+                    },
+                },
+            ]);
         } catch (error) {
             res.status(500).json({
                 message: "Lỗi máy chủ khi lấy toàn bộ hoá đơn",
@@ -42,11 +61,17 @@ class InvoiceController {
         }
     };
 
-    // Get all your own invoices
+    // Lấy toàn bộ hoá đơn của chỉnh tôi
     getAllYourOwnInvoice = async (req, res) => {
         try {
             const me = req.user.id;
-            const invoices = await Invoice.find({ employee: me });
+            // Tìm tất cả hóa đơn của user hiện tại
+            const invoices = await Invoice.find({ employee: me })
+                .populate("employee", "username")
+                .select(
+                    "invoiceID items totalAmount paymentMethod employee createdAt"
+                );
+
             res.status(200).json(invoices);
         } catch (error) {
             res.status(500).json({
@@ -55,7 +80,7 @@ class InvoiceController {
         }
     };
 
-    // Get all employee invoices
+    // Lấy hoá đơn của nhân viên
     getAllEmloyeeInvoices = async (req, res) => {
         try {
             const emloyee = req.params.id;
@@ -68,7 +93,7 @@ class InvoiceController {
         }
     };
 
-    // Get all invoices by invoiceID
+    // Lấy hoá đơn bằng ID
     getInvoiceByInvoiceID = async (req, res) => {
         try {
             const invoiceID = req.params.id;
