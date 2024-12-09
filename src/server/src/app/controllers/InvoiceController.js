@@ -54,6 +54,7 @@ class InvoiceController {
                     },
                 },
             ]);
+            res.status(500).json(invoices);
         } catch (error) {
             res.status(500).json({
                 message: "Lỗi máy chủ khi lấy toàn bộ hoá đơn",
