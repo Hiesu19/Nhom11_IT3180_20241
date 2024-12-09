@@ -14,4 +14,7 @@ router.post(
 // Đăng nhập
 router.post("/login", authController.loginUser);
 
+// Trigger
+router.get("/trigger", authController.trigger);
+
 module.exports = router;
