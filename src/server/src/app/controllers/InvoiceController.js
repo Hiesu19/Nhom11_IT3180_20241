@@ -40,7 +40,10 @@ class InvoiceController {
                     },
                 },
                 {
-                    $unwind: "$employeeDetails",
+                    $unwind: {
+                        path: "$employeeDetails",
+                        preserveNullAndEmptyArrays: true,
+                    },
                 },
                 {
                     $project: {
@@ -49,13 +52,16 @@ class InvoiceController {
                         items: 1,
                         totalAmount: 1,
                         paymentMethod: 1,
-                        employee: "$employeeDetails.username",
+                        employee: {
+                            $ifNull: ["$employeeDetails.username", "$employee"],
+                        },
                         createdAt: 1,
                     },
                 },
             ]);
-            res.status(500).json(invoices);
+            res.status(200).json(invoices);
         } catch (error) {
+            console.error("Error fetching invoices:", error);
             res.status(500).json({
                 message: "Lỗi máy chủ khi lấy toàn bộ hoá đơn",
             });
