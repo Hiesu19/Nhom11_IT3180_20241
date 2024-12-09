@@ -23,7 +23,7 @@ function ShowNotification() {
                         },
                     }
                 );
-                setNotifications(response.data);
+                setNotifications(response.data.reverse());
             } catch (err) {
                 console.error("Error fetching notifications:", err);
                 setError(err.message || "Something went wrong");
