@@ -116,6 +116,14 @@ const Sidebar = () => {
             link: "/promotion",
         },
         {
+            name: "Lịch sử hoá đơn",
+            icon: <TicketIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Lịch sử hoá đơn");
+            },
+            link: "/invoice_history",
+        },
+        {
             name: "Logout",
             icon: <ArrowLeftOnRectangleIcon className="w-6 h-6" />,
             onClick: () => {

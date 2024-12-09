@@ -28,6 +28,8 @@ import PromotionList from "./Components/Page/Promotion/PromotionList";
 import PromotionDetail from "./Components/Page/Promotion/PromotionDetail";
 import AddPromotion from "./Components/Page/Promotion/AddPromotion";
 
+import InvoicePage from "./Components/Page/Invoice/InvoicePage";
+
 function App() {
     return (
         <Router>
@@ -104,6 +106,10 @@ function App() {
                 <Route
                     path="/promotion/:id"
                     element={<Layout content={<PromotionDetail />} />}
+                />
+                <Route
+                    path="/invoice_history"
+                    element={<Layout content={<InvoicePage />} />}
                 />
             </Routes>
         </Router>
