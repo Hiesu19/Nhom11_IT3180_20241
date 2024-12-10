@@ -101,8 +101,9 @@ function BankPayment() {
                         setTimeout(() => clearInterval(timerInterval), 3000);
                     },
                 }).then(() => {
-                    navigate("/create_invoicet");
-                    window.location.reload();
+                    navigate("/create_invoicet", { state: { reload: true } });
+                    // navigate("/create_invoicet");
+                    // window.location.reload();
                 });
             }
         } catch (error) {

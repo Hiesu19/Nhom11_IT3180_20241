@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import apiConfig from "../../../config/apiConfig";
+
 const sellSomething = async (items) => {
     try {
         const sellData = {
@@ -13,7 +15,7 @@ const sellSomething = async (items) => {
         // Gửi yêu cầu lưu hóa đơn qua API
         const token = JSON.parse(localStorage.getItem("user"));
         const response = await axios.post(
-            "http://localhost:8000/v1/app/products/sell",
+            `${apiConfig.serverURL}/v1/app/products/sell`,
             sellData,
             {
                 headers: {
@@ -24,7 +26,7 @@ const sellSomething = async (items) => {
 
         return response.data;
     } catch (error) {
-        console.error("Lỗi khi giảm sản phẩm:", error);
+        console.error("Lỗi khi bán sản phẩm:", error);
         throw error;
     }
 };

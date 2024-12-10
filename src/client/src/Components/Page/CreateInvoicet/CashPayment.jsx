@@ -46,8 +46,9 @@ function CashPayment() {
             const orderCode = formatDate(new Date());
             handleSellSomething();
             handleSaveInvoice(orderCode);
-            navigate("/create_invoicet");
-            window.location.reload();
+            navigate("/create_invoicet", { state: { reload: true } });
+            // navigate("/create_invoicet");
+            // window.location.reload();
         }
     };
 

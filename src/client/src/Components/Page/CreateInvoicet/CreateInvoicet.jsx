@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import unidecode from "unidecode";
 import Swal from "sweetalert2";
@@ -17,24 +17,54 @@ function CreateInvoice() {
     const [errorMessage, setErrorMessage] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("cash");
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // useEffect(() => {
+    //     const fetchProducts = async () => {
+    //         try {
+    //             const token = JSON.parse(localStorage.getItem("user"));
+    //             const response = await axios.get(
+    //                 `${apiConfig.serverURL}/v1/app/products`,
+    //                 {
+    //                     headers: {
+    //                         token: `Bearer ${token.accessToken}`,
+    //                     },
+    //                 }
+    //             );
+    //             setProductList(response.data);
+    //         } catch (error) {
+    //             console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
+    //         }
+    //     };
+    //     fetchProducts();
+    // }, []);
+
+    const fetchProducts = async () => {
+        try {
+            const token = JSON.parse(localStorage.getItem("user"));
+            const response = await axios.get(
+                `${apiConfig.serverURL}/v1/app/products`,
+                {
+                    headers: {
+                        token: `Bearer ${token.accessToken}`,
+                    },
+                }
+            );
+            setProductList(response.data);
+        } catch (error) {
+            console.error("Lỗi khi lấy dữ liệu sản phẩm:", error.message);
+        }
+    };
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const token = JSON.parse(localStorage.getItem("user"));
-                const response = await axios.get(
-                    `${apiConfig.serverURL}/v1/app/products`,
-                    {
-                        headers: {
-                            token: `Bearer ${token.accessToken}`,
-                        },
-                    }
-                );
-                setProductList(response.data);
-            } catch (error) {
-                console.error("Lỗi khi lấy dữ liệu sản phẩm:", error);
-            }
-        };
+        // Kiểm tra nếu state.reload tồn tại và là true
+        if (location.state?.reload) {
+            fetchProducts();
+        }
+    }, [location.state]);
+
+    useEffect(() => {
+        // Tải dữ liệu lần đầu khi trang được load
         fetchProducts();
     }, []);
 

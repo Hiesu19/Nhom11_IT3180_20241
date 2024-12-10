@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import apiConfig from "../../../config/apiConfig";
+
 const saveInvoice = async (items, orderCode, total, paymentMethod) => {
     try {
         const invoiceData = {
@@ -19,7 +21,7 @@ const saveInvoice = async (items, orderCode, total, paymentMethod) => {
         // Gửi yêu cầu lưu hóa đơn qua API
         const token = JSON.parse(localStorage.getItem("user"));
         const response = await axios.post(
-            "http://localhost:8000/v1/app/invoice/save_invoice",
+            `${apiConfig.serverURL}/v1/app/invoice/save_invoice`,
             invoiceData,
             {
                 headers: {
