@@ -4,14 +4,14 @@ const priceSchema = new mongoose.Schema(
     {
         price: {
             type: Number,
-            required: true, // Giá bán là bắt buộc
+            required: true,
         },
         purchasePrice: {
             type: Number,
-            required: false, // Giá nhập không bắt buộc
+            required: false,
         },
     },
-    { _id: false } // Không thêm _id
+    { _id: false }
 );
 
 const productInfoSchema = new mongoose.Schema(
@@ -28,18 +28,18 @@ const productInfoSchema = new mongoose.Schema(
             required: false,
         },
 
-        //Mô tả
+        // Mô tả
         description: {
             type: String,
-            require: false,
+            required: false,
         },
 
-        //Mã vạch trên sản phẩm
+        // Mã vạch trên sản phẩm
         barcode: {
             type: String,
             unique: true,
             default: function () {
-                return "undefined" + this.parent().productID; // Lấy giá trị của productID
+                return "undefined" + this.parent().productID; // Tạo mã mặc định
             },
         },
     },
@@ -48,27 +48,27 @@ const productInfoSchema = new mongoose.Schema(
 
 const productSchema = new mongoose.Schema(
     {
-        //Mã sản phẩm
+        // Mã sản phẩm
         productID: {
             type: String,
             required: true,
             unique: true,
         },
 
-        //Tên sản phẩm
+        // Tên sản phẩm
         name: {
             type: String,
             required: true,
             unique: true,
         },
 
-        //Giá
+        // Giá
         prices: priceSchema,
 
-        //Thông tin sản phẩm
+        // Thông tin sản phẩm
         productInfo: productInfoSchema,
 
-        //Số lượng còn lại trong kho
+        // Số lượng còn lại trong kho
         stock: {
             type: Number,
             default: 0,
@@ -80,11 +80,19 @@ const productSchema = new mongoose.Schema(
             default: Date.now,
         },
 
-        //Mức cảnh báo hết hàng
+        // Mức cảnh báo hết hàng
         warningLevel: {
             type: Number,
             default: 10,
         },
+
+        // Danh sách chương trình khuyến mãi áp dụng
+        promotions: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Promotion",
+            },
+        ],
     },
     { timestamps: true }
 );
