@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 function DetailNotification() {
     const { id } = useParams();
-    const navigate = useNavigate();
     const [notification, setNotification] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -26,8 +24,7 @@ function DetailNotification() {
                 );
                 setNotification(response.data.notification);
             } catch (err) {
-                console.error("Error fetching notifications:", err);
-                setError(err.message || "Something went wrong");
+                setError(err.message || "Lỗi khi tạo thông báo");
             } finally {
                 setLoading(false);
             }

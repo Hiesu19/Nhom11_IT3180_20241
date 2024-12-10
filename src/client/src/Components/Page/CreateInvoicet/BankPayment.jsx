@@ -19,7 +19,6 @@ function BankPayment() {
     const [qrText, setQrText] = useState("");
     const [orderCode, setOrderCode] = useState();
     const [orderStatus, setOrderStatus] = useState("PENDING");
-    const [orderCheckInterval, setOrderCheckInterval] = useState(null);
     const orderCheckIntervalRef = useRef(null);
 
     const previousOrderStatus = useRef(orderStatus); // Sử dụng useRef để lưu trạng thái trước đó
@@ -171,7 +170,7 @@ function BankPayment() {
 
     useEffect(() => {
         fetchAPIQRCode();
-    }, []);
+    }, [fetchAPIQRCode]);
 
     useEffect(() => {
         if (orderCode) {
@@ -182,7 +181,7 @@ function BankPayment() {
                 clearInterval(orderCheckIntervalRef.current);
             }
         };
-    }, [orderCode]);
+    }, [orderCode, startCheckingOrderStatus]);
 
     return (
         <div className="bg-gray-100 min-h-screen flex items-center justify-center p-5">

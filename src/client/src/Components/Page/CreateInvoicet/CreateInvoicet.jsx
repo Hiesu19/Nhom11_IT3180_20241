@@ -79,8 +79,8 @@ function CreateInvoice() {
                 product: product.name,
                 quantity: requestedQuantity,
                 price: product.prices.price,
-                discountRate, // Thêm discountRate vào
-                discountedPrice, // Thêm discountedPrice vào
+                discountRate,
+                discountedPrice,
                 total: requestedQuantity * discountedPrice,
             };
             setItems([...items, newItem]);
@@ -110,7 +110,7 @@ function CreateInvoice() {
                 text: "Giá trị đơn hàng không được bé hơn hoặc bằng 0!",
                 confirmButtonText: "OK",
             });
-            return; // Dừng hàm nếu amount không hợp lệ
+            return;
         }
         navigate("/invoice_preview", {
             state: { items, total, paymentMethod },
@@ -130,14 +130,10 @@ function CreateInvoice() {
         }, 200); // Đảm bảo danh sách không bị ẩn ngay lập tức
     };
 
-    const handleFocusLeave = () => {
-        setIsFocused(false); // Khi rời khỏi ô tìm kiếm thì trạng thái sẽ thay đổi
-    };
-
     // Lọc sản phẩm theo từ khóa (có dấu hoặc không dấu)
     const filteredProducts = searchTerm
         ? productList.filter((product) => {
-              const barcode = product.productInfo?.barcode?.toLowerCase() || ""; // Lấy barcode, nếu không có thì gán chuỗi rỗng
+              const barcode = product.productInfo?.barcode?.toLowerCase() || ""; 
               const productID = product.productID.toLowerCase();
               const productName = product.name.toLowerCase();
               const search = searchTerm.trim().toLowerCase();

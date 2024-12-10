@@ -21,14 +21,13 @@ const AddProduct = () => {
         warningLevel: "",
     });
 
-    const navigate = useNavigate(); // Hook để điều hướng
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         const field = name.split(".");
 
         if (field.length === 2) {
-            // Xử lý các trường lồng nhau như prices và productInfo
             setProductData((prevData) => ({
                 ...prevData,
                 [field[0]]: {
@@ -37,7 +36,6 @@ const AddProduct = () => {
                 },
             }));
         } else {
-            // Xử lý các trường ngoài lồng nhau
             setProductData((prevData) => ({
                 ...prevData,
                 [name]: value,
@@ -47,9 +45,7 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Form data to be submitted:", productData); // Kiểm tra dữ liệu
-
-        // Kiểm tra token hợp lệ
+        console.log("Form data to be submitted:", productData);
         const token = JSON.parse(localStorage.getItem("user"));
         if (!token || !token.accessToken) {
             Swal.fire({
@@ -59,7 +55,6 @@ const AddProduct = () => {
             });
             return;
         }
-
         try {
             const response = await axios.post(
                 "http://localhost:8000/v1/app/products/add_product",
@@ -98,7 +93,6 @@ const AddProduct = () => {
     };
 
     const handleCancel = () => {
-        // Chuyển hướng về trang ProductList khi nhấn nút hủy
         navigate("/product_management");
     };
 
@@ -106,7 +100,6 @@ const AddProduct = () => {
         <div className="max-w-2xl mx-auto p-4 bg-white shadow-lg rounded-lg">
             <h2 className="text-2xl font-bold mb-4">Tạo Sản Phẩm Mới</h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-                {/* Product ID and Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                         type="text"
@@ -125,8 +118,6 @@ const AddProduct = () => {
                         className="p-2 border border-gray-300 rounded-md"
                     />
                 </div>
-
-                {/* Price and Purchase Price */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                         type="number"
@@ -145,8 +136,6 @@ const AddProduct = () => {
                         className="p-2 border border-gray-300 rounded-md"
                     />
                 </div>
-
-                {/* Product Info */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                         type="date"
@@ -164,7 +153,6 @@ const AddProduct = () => {
                     />
                 </div>
 
-                {/* Description and Barcode */}
                 <div className="grid grid-cols-1 gap-4">
                     <textarea
                         name="productInfo.description"
@@ -183,7 +171,6 @@ const AddProduct = () => {
                     />
                 </div>
 
-                {/* Stock and Warning Level */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <input
                         type="number"

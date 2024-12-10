@@ -58,8 +58,6 @@ const AddPromotion = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Kiểm tra tiền điều kiện
         if (!formData.title.trim()) {
             Swal.fire({
                 icon: "error",
@@ -167,7 +165,7 @@ const AddPromotion = () => {
                 Đóng
             </button>
             <div className="max-w-3xl mx-auto p-4 bg-white shadow-md rounded-lg">
-                <h2 className="text-2xl font-bold mb-4">Add Promotion</h2>
+                <h2 className="text-2xl font-bold mb-4">Thêm khuyến mãi</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">

@@ -40,7 +40,7 @@ function CashPayment() {
         console.log(amountGiven);
         if (amountGiven < total) {
             alert("Khách hàng gửi chưa đủ số tiền");
-        } else if (checkRefund == false) {
+        } else if (checkRefund === false) {
             alert("Vui tính tiền thừa cho khách trước !");
         } else {
             const orderCode = formatDate(new Date());

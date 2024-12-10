@@ -93,7 +93,7 @@ const PromotionDetail = () => {
                     confirmButtonText: "OK",
                 });
 
-                navigate("/promotion"); // Điều hướng về danh sách khuyến mãi
+                navigate("/promotion");
             } catch (err) {
                 console.error("Error deleting promotion:", err);
 
@@ -238,7 +238,7 @@ const PromotionDetail = () => {
                 )}
             </div>
 
-            {/* Nút thao tác */}
+            {/* Button */}
             <div className="mt-6 flex justify-between">
                 <button
                     onClick={handleDeletePromotion}

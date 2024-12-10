@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     HomeIcon,
-    Cog6ToothIcon,
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
     ShoppingCartIcon,
@@ -10,6 +9,7 @@ import {
     ReceiptPercentIcon,
     BellIcon,
     TicketIcon,
+    ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 
 import handleLogoutClick from "./handleLogoutClick";
@@ -21,7 +21,6 @@ const Sidebar = () => {
 
     const navigate = useNavigate();
 
-    // Kiểm tra có data trong Local không, nếu không có trả lại trang "/"
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
         if (savedUser) {
@@ -46,7 +45,6 @@ const Sidebar = () => {
         user.name
     )}&background=random&color=fff`;
 
-    // Sử dụng useEffect để tự động gập sidebar khi màn hình nhỏ hơn 900px
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 1200) {
@@ -57,10 +55,8 @@ const Sidebar = () => {
         };
         handleResize();
 
-        // Lắng nghe sự thay đổi kích thước cửa sổ
         window.addEventListener("resize", handleResize);
 
-        // Cleanup listener khi component unmount
         return () => {
             window.removeEventListener("resize", handleResize);
         };
@@ -93,7 +89,7 @@ const Sidebar = () => {
         },
         {
             name: "Tạo hóa đơn",
-            icon: <ReceiptPercentIcon className="w-6 h-6" />,
+            icon: <ShoppingBagIcon className="w-6 h-6" />,
             onClick: () => {
                 setActiveItem("Tạo hóa đơn");
             },
@@ -117,7 +113,7 @@ const Sidebar = () => {
         },
         {
             name: "Lịch sử hoá đơn",
-            icon: <TicketIcon className="w-6 h-6" />,
+            icon: <ReceiptPercentIcon className="w-6 h-6" />,
             onClick: () => {
                 setActiveItem("Lịch sử hoá đơn");
             },
@@ -159,7 +155,6 @@ const Sidebar = () => {
                 </div>
             </div>
 
-            {/* Navigation links với khả năng cuộn */}
             <div className="flex-grow overflow-y-auto scrollbar-hide">
                 <ul className="p-4 space-y-4">
                     {menuItems.map((item) => (
@@ -187,14 +182,13 @@ const Sidebar = () => {
                 </ul>
             </div>
 
-            {/* Avatar hiển thị hình ảnh từ API ở cuối sidebar */}
             <div className="flex items-center justify-start p-4">
                 <img
-                    src={avatarUrl} // Sử dụng avatar từ API với các tham số mới
+                    src={avatarUrl}
                     alt="Avatar"
-                    className={`rounded-full w-12 h-12`} // Đặt kích thước avatar cố định
+                    className={`rounded-full w-12 h-12`}
                 />
-                {/* Nhóm tên và chức vụ thành một khối */}
+
                 <div
                     className={`ml-2 ${
                         isCollapsed ? "hidden" : "flex flex-col"

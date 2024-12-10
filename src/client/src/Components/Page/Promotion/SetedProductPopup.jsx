@@ -64,7 +64,7 @@ const SetedProductPopup = ({
     return isOpen ? (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10">
             <div className="bg-white p-6 rounded-lg shadow-lg max-w-4xl w-full">
-                <h2 className="text-xl font-semibold mb-4">Select Products:</h2>
+                <h2 className="text-xl font-semibold mb-4">Chọn sản phẩm:</h2>
                 <div className="flex justify-between items-center mb-4">
                     <label className="flex items-center">
                         <input
@@ -76,7 +76,7 @@ const SetedProductPopup = ({
                                 filteredProducts.length > 0
                             }
                         />
-                        Select All
+                        Chọn tất cả
                     </label>
                     <Select
                         value={productsPerPage}
@@ -85,16 +85,16 @@ const SetedProductPopup = ({
                         variant="outlined"
                         size="small"
                     >
-                        <MenuItem value={5}>5 rows</MenuItem>
-                        <MenuItem value={10}>10 rows</MenuItem>
-                        <MenuItem value={20}>20 rows</MenuItem>
+                        <MenuItem value={5}>5 hàng</MenuItem>
+                        <MenuItem value={10}>10 hàng</MenuItem>
+                        <MenuItem value={20}>20 hàng</MenuItem>
                     </Select>
                 </div>
                 <div className="mb-4">
                     <input
                         type="text"
                         className="border p-2 w-full rounded-md"
-                        placeholder="Search by product ID or name..."
+                        placeholder="Tìm kiếm theo ID hoặc tên SP"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
@@ -102,12 +102,12 @@ const SetedProductPopup = ({
                 <table className="min-w-full table-auto max-h-96 overflow-y-auto">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Select</th>
-                            <th>Product ID</th>
-                            <th>Product Name</th>
-                            <th>Price</th>
-                            <th>Stock</th>
+                            <th></th>
+                            <th></th>
+                            <th>Mã SP</th>
+                            <th>Tên SP</th>
+                            <th>Giá</th>
+                            <th>Tồn kho</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -144,7 +144,7 @@ const SetedProductPopup = ({
                         onClick={onClose}
                         className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
                     >
-                        Close
+                        Đóng
                     </button>
                 </div>
             </div>

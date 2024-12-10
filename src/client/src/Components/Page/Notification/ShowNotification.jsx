@@ -25,8 +25,7 @@ function ShowNotification() {
                 );
                 setNotifications(response.data.reverse());
             } catch (err) {
-                console.error("Error fetching notifications:", err);
-                setError(err.message || "Something went wrong");
+                setError(err.message || "Lỗi khi tạo thông báo");
             } finally {
                 setLoading(false);
             }
@@ -55,7 +54,7 @@ function ShowNotification() {
             case "error":
                 return "bg-red-500";
             default:
-                return "bg-gray-500"; // Mặc định nếu không có type
+                return "bg-gray-500";
         }
     };
 
@@ -84,7 +83,6 @@ function ShowNotification() {
                                     )
                                 }
                             >
-                                {/* Thanh màu phía trước thông báo với bo tròn */}
                                 <div
                                     className={`h-12 w-2 mr-4 ${getNotificationColor(
                                         notification.type

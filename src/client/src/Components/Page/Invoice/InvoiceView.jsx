@@ -3,8 +3,7 @@ import React, { useState } from "react";
 const InvoiceView = ({ invoice }) => {
     const [showItems, setShowItems] = useState(false);
 
-    if (!invoice)
-        return <p className="text-red-500">No invoice data available</p>;
+    if (!invoice) return <p className="text-red-500">Không có dữ liệu.</p>;
 
     const {
         invoiceID,
@@ -23,39 +22,40 @@ const InvoiceView = ({ invoice }) => {
         <div className="border rounded-lg shadow-lg p-6 mb-6">
             <div className="cursor-pointer" onClick={toggleItems}>
                 <h2 className="text-xl font-bold mb-2">
-                    Invoice ID: {invoiceID}
+                    Mã hoá đơn: {invoiceID}
                 </h2>
                 <p>
-                    <strong>Employee ID:</strong>{" "}
+                    <strong>Mã nhân viên:</strong>{" "}
                     {typeof employee === "object" && employee !== null
                         ? employee.username
                         : employee}
                 </p>
                 <p>
-                    <strong>Payment Method:</strong> {paymentMethod}
+                    <strong>Phương thức thanh toán:</strong>{" "}
+                    <strong className="text-green-500">{paymentMethod}</strong>
                 </p>
                 <p>
                     <strong>Date:</strong>{" "}
                     {new Date(createdAt).toLocaleString()}
                 </p>
                 <p>
-                    <strong>Total Amount:</strong> ${totalAmount}
+                    <strong className="text-red-500">
+                        Tổng: ${totalAmount}
+                    </strong>
                 </p>
             </div>
 
             {showItems && (
                 <div className="mt-4">
-                    <h3 className="text-lg font-semibold">Items:</h3>
+                    <h3 className="text-lg font-semibold">Chi tiết:</h3>
                     <table className="table-auto w-full border-collapse border border-gray-300 mt-2">
                         <thead>
                             <tr className="bg-gray-100">
-                                <th className="border px-4 py-2">Product ID</th>
-                                <th className="border px-4 py-2">
-                                    Product Name
-                                </th>
-                                <th className="border px-4 py-2">Quantity</th>
-                                <th className="border px-4 py-2">Price</th>
-                                <th className="border px-4 py-2">Total</th>
+                                <th className="border px-4 py-2">Mã SP</th>
+                                <th className="border px-4 py-2">Tên SP</th>
+                                <th className="border px-4 py-2">Số lượng</th>
+                                <th className="border px-4 py-2">Giá</th>
+                                <th className="border px-4 py-2">Tổng</th>
                             </tr>
                         </thead>
                         <tbody>

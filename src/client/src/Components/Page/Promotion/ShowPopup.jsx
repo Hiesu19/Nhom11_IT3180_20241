@@ -33,7 +33,7 @@ const ShowPopup = ({ products, closePopup }) => {
                     <thead>
                         <tr>
                             <th className="px-4 py-2 border-b">STT</th>
-                            <th className="px-4 py-2 border-b">Product ID</th>
+                            <th className="px-4 py-2 border-b">Mã SP</th>
                             <th className="px-4 py-2 border-b">Tên sản phẩm</th>
                         </tr>
                     </thead>
@@ -54,9 +54,7 @@ const ShowPopup = ({ products, closePopup }) => {
                     </tbody>
                 </table>
 
-                {/* Bộ điều khiển phân trang */}
                 <div className="flex justify-between items-center mt-4">
-                    {/* Chọn số hàng hiển thị */}
                     <div>
                         <Select
                             value={productsPerPage}
@@ -71,7 +69,6 @@ const ShowPopup = ({ products, closePopup }) => {
                         </Select>
                     </div>
 
-                    {/* Điều hướng phân trang */}
                     <Pagination
                         count={totalPages}
                         page={currentPage}
@@ -80,7 +77,6 @@ const ShowPopup = ({ products, closePopup }) => {
                     />
                 </div>
 
-                {/* Nút đóng modal */}
                 <button
                     onClick={closePopup}
                     className="mt-4 bg-red-500 text-white px-4 py-2 rounded"

@@ -13,7 +13,7 @@ function Login() {
         if (savedUser) {
             navigate("/dashboard");
         }
-    }, []);
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -72,17 +72,17 @@ function Login() {
                     <div className="mb-4">
                         <label
                             className="block text-gray-700 text-sm font-bold mb-2"
-                            htmlFor="username" // Thay đổi id từ email thành username
+                            htmlFor="username"
                         >
                             Username
                         </label>
                         <input
                             type="text"
-                            id="username" // Thay đổi id từ email thành username
+                            id="username"
                             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:border-blue-500"
                             placeholder="Enter your username"
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)} // Thay đổi email thành username
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                     </div>

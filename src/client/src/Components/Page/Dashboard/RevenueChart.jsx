@@ -197,7 +197,6 @@ const RevenueChart = ({ data, title }) => {
                     </select>
                 </div>
 
-                {/* Filter and Reset Buttons */}
                 <div className="flex items-center space-x-4">
                     <button
                         onClick={() => {

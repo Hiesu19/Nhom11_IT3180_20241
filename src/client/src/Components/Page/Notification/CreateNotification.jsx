@@ -40,8 +40,7 @@ function CreateNotification() {
                 navigate("/notification");
             }
         } catch (err) {
-            console.error("Error creating notification:", err);
-            setError(err.message || "Something went wrong");
+            setError(err.message || "Lỗi khi tạo thông báo");
         } finally {
             setLoading(false);
         }
@@ -54,7 +53,7 @@ function CreateNotification() {
 
             <button
                 className="mb-4 px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
-                onClick={() => navigate("/notification")} // Quay lại trang danh sách thông báo
+                onClick={() => navigate("/notification")}
             >
                 Quay lại
             </button>

@@ -16,11 +16,8 @@ const EditEmployee = () => {
         phone: "",
         password: "",
     });
-
-    // State để kiểm tra lỗi mật khẩu
     const [passwordError, setPasswordError] = useState(false);
 
-    // Hàm lấy thông tin nhân viên
     useEffect(() => {
         const fetchEmployee = async () => {
             try {
@@ -40,7 +37,7 @@ const EditEmployee = () => {
                     role: response.data.role,
                     email: response.data.email,
                     phone: response.data.phone,
-                    password: "", // Giữ mật khẩu trống để người dùng nhập lại
+                    password: "",
                 });
             } catch (error) {
                 console.error("Lỗi khi lấy dữ liệu nhân viên:", error);
@@ -71,11 +68,9 @@ const EditEmployee = () => {
     // Hàm xử lý lưu thông tin
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Tạo đối tượng để gửi, chỉ gửi mật khẩu nếu người dùng nhập vào ô mật khẩu
         const updatedEmployee = { ...employee };
         if (!updatedEmployee.password) {
-            delete updatedEmployee.password; // Xóa trường password nếu không có giá trị
+            delete updatedEmployee.password;
         }
 
         try {
@@ -229,7 +224,7 @@ const EditEmployee = () => {
                     <button
                         type="submit"
                         className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-md shadow hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                        disabled={passwordError} // Vô hiệu hóa nút lưu khi có lỗi mật khẩu
+                        disabled={passwordError}
                     >
                         Lưu thay đổi
                     </button>

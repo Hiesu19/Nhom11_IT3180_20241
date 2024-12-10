@@ -11,7 +11,6 @@ const UserList = () => {
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                // Gọi API lấy toàn bộ nhân viên
                 const token = JSON.parse(localStorage.getItem("user"));
                 setLocal(token);
                 const response = await axios.get(
@@ -22,8 +21,6 @@ const UserList = () => {
                         },
                     }
                 );
-
-                // Cập nhật state với dữ liệu nhận được
                 setEmployees(response.data);
             } catch (error) {
                 console.error("Có lỗi khi lấy dữ liệu:", error);
@@ -47,7 +44,6 @@ const UserList = () => {
 
         if (result.isConfirmed) {
             try {
-                // Gọi API xoá nhân viên
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.delete(
                     `http://localhost:8000/v1/user/${id}`,
@@ -62,7 +58,6 @@ const UserList = () => {
                     throw new Error("Lỗi khi xóa nhân viên");
                 }
 
-                // Cập nhật danh sách nhân viên sau khi xóa
                 setEmployees(
                     employees.filter((employee) => employee._id !== id)
                 );
@@ -82,7 +77,6 @@ const UserList = () => {
         }
     };
 
-    // Hàm xử lý chỉnh sửa nhân viên
     const handleEdit = (id) => {
         navigate(`/employee_management/edit/${id}`);
     };

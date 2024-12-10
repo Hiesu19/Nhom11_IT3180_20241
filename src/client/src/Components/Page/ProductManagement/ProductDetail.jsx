@@ -43,15 +43,12 @@ const ProductDetail = () => {
         fetchProductDetail();
     }, [id]);
 
-    // Công tắc chỉnh sửa
     const handleEditToggle = () => {
         setIsEditing(!isEditing);
     };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
-        // Cập nhật giá
         if (name === "price") {
             setEditedProduct((prev) => ({
                 ...prev,
@@ -159,8 +156,6 @@ const ProductDetail = () => {
                     },
                 }
             );
-
-            // Log sau khi lưu thành công
             const productAfterSave = editedProduct;
 
             setProduct(editedProduct);
@@ -172,7 +167,6 @@ const ProductDetail = () => {
                 confirmButtonText: "OK",
             });
 
-            // Tạo chuỗi sau khi lưu
 
             for (let key in productBeforeSave) {
                 if (productBeforeSave[key] !== productAfterSave[key]) {
@@ -186,11 +180,11 @@ const ProductDetail = () => {
 
             if (changes.length > 0) {
                 for (const change of changes) {
-                    let x = "* " + change + "\n"; // Cộng chuỗi cho mỗi thay đổi
+                    let x = "* " + change + "\n";
                     stringBodyNoti = stringBodyNoti + x;
                 }
             } else {
-                stringBodyNoti = "NULL"; // Nếu không có thay đổi
+                stringBodyNoti = "NULL"; 
             }
 
             makeNotificationToAdmin(
@@ -209,7 +203,7 @@ const ProductDetail = () => {
         }
     };
 
-    // Hàm xoá sản phẩm
+
     const handleDelete = () => {
         Swal.fire({
             title: "Bạn có chắc chắn muốn xoá sản phẩm này?",
@@ -242,7 +236,7 @@ const ProductDetail = () => {
                         ` '${respone.data.auth}' đã xoá sản phẩm ${respone.data.product.productID} (${respone.data.product.name}).`,
                         "warning"
                     );
-                    navigate(-1); // Quay lại trang trước
+                    navigate(-1); 
                 } catch (error) {
                     console.error("Lỗi khi xoá sản phẩm:", error);
                     Swal.fire({
@@ -266,7 +260,7 @@ const ProductDetail = () => {
                 onClick={() => navigate(-1)}
                 className="mb-6 px-6 py-3 bg-blue-500 text-white rounded-lg"
             >
-                Go Back
+                Thoát
             </button>
             {/* Form hiển thị và chỉnh sửa sản phẩm */}
             <ProductForm
@@ -274,12 +268,12 @@ const ProductDetail = () => {
                 isEditing={isEditing}
                 handleInputChange={handleInputChange}
             />
-            {/* Các nút hành động */}
+            {/* Button */}
             <div className="flex justify-between mt-8">
                 {isEditing ? (
                     <>
                         <button
-                            onClick={() => setIsEditing(!isEditing)} // Điều hướng về trang chi tiết sản phẩm
+                            onClick={() => setIsEditing(!isEditing)} 
                             className="px-6 py-3 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-all duration-200"
                         >
                             Huỷ
