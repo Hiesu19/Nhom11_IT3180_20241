@@ -3,6 +3,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 const UserList = () => {
     //State lưu nhân viên từ API
     const [employees, setEmployees] = useState([]);
@@ -14,7 +16,7 @@ const UserList = () => {
                 const token = JSON.parse(localStorage.getItem("user"));
                 setLocal(token);
                 const response = await axios.get(
-                    "http://localhost:8000/v1/user",
+                    `${apiConfig.serverURL}/v1/user`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -46,7 +48,7 @@ const UserList = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.delete(
-                    `http://localhost:8000/v1/user/${id}`,
+                    `${apiConfig.serverURL}/v1/user/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,

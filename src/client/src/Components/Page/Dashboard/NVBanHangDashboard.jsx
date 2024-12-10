@@ -3,7 +3,6 @@ import OverviewCard from "./OverviewCard";
 import Popup from "./Popup";
 import {
     BellIcon,
-    CurrencyDollarIcon,
     UsersIcon,
 } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router-dom";

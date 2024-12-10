@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
 import AdminDashboard from "./AdminDashboard";
 import QLKDashboard from "./QLKDashboard";
 import NVBanHangDashboard from "./NVBanHangDashboard";
+
+import apiConfig from "../../../config/apiConfig";
 
 const Dashboard = () => {
     const [info, setInfo] = useState({});
@@ -17,7 +18,7 @@ const Dashboard = () => {
                 const token = JSON.parse(localStorage.getItem("user"));
                 setInfo(token.user_datas);
                 const response = await axios.get(
-                    "http://localhost:8000/v1/app/dashboard",
+                    `${apiConfig.serverURL}/v1/app/dashboard`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -26,7 +27,6 @@ const Dashboard = () => {
                 );
                 setOverviewData(response.data);
             } catch (err) {
-                console.error("Error fetching data:", err);
                 setError(
                     "Lỗi khi lấy dữ liệu từ server. Vui lòng thử lại sau."
                 );

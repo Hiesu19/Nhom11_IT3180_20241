@@ -3,6 +3,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 const AddProduct = () => {
     const [productData, setProductData] = useState({
         productID: "",
@@ -57,7 +59,7 @@ const AddProduct = () => {
         }
         try {
             const response = await axios.post(
-                "http://localhost:8000/v1/app/products/add_product",
+                `${apiConfig.serverURL}/v1/app/products/add_product`,
                 productData,
                 {
                     headers: {

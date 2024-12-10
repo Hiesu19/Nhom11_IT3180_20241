@@ -5,6 +5,8 @@ import axios from "axios";
 import ShowPopup from "./ShowPopup";
 import Swal from "sweetalert2";
 
+import apiConfig from "../../../config/apiConfig";
+
 const PromotionDetail = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ const PromotionDetail = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    `http://localhost:8000/v1/app/promotion/${id}`,
+                    `${apiConfig.serverURL}/v1/app/promotion/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -33,7 +35,7 @@ const PromotionDetail = () => {
 
                 if (response.data.appliedProducts.length > 0) {
                     const productResponse = await axios.post(
-                        `http://localhost:8000/v1/app/products/info`,
+                        `${apiConfig.serverURL}/v1/app/products/info`,
                         { ids: response.data.appliedProducts },
                         {
                             headers: {
@@ -78,7 +80,7 @@ const PromotionDetail = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 await axios.delete(
-                    `http://localhost:8000/v1/app/promotion/${id}`,
+                    `${apiConfig.serverURL}/v1/app/promotion/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,

@@ -2,6 +2,8 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import apiConfig from "../../../config/apiConfig";
+
 const DetailEmployee = () => {
     const { id } = useParams();
 
@@ -20,7 +22,7 @@ const DetailEmployee = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    `http://localhost:8000/v1/user/${id}`,
+                    `${apiConfig.serverURL}/v1/user/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -36,7 +38,6 @@ const DetailEmployee = () => {
                     phone: response.data.phone,
                 });
             } catch (error) {
-                console.error("Lỗi khi lấy dữ liệu nhân viên:", error);
                 alert("Không thể tải thông tin nhân viên.");
             }
         };

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 function CreateNotification() {
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
@@ -26,7 +28,7 @@ function CreateNotification() {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/v1/app/notification/post",
+                `${apiConfig.serverURL}/v1/app/notification/post`,
                 notificationData,
                 {
                     headers: {

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 //hàm xoá dấu tiếng việt
 const removeDiacritics = (str) => {
     return str
@@ -30,7 +32,7 @@ const ProductManagement = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    "http://localhost:8000/v1/app/products/",
+                    `${apiConfig.serverURL}/v1/app/products/`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,

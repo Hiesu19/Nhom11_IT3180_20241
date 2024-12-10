@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
+import apiConfig from "../../../config/apiConfig";
+
 function DetailNotification() {
     const { id } = useParams();
     const [notification, setNotification] = useState(null);
@@ -14,7 +16,7 @@ function DetailNotification() {
                 setLoading(true);
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.post(
-                    `http://localhost:8000/v1/app/notification/seen/${id}`,
+                    `${apiConfig.serverURL}/v1/app/notification/seen/${id}`,
                     {},
                     {
                         headers: {

@@ -5,6 +5,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import makeNotificationToAll from "../../../Utils/makeNotificationToAll";
 
+import apiConfig from "../../../config/apiConfig";
+
 const AddPromotion = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -24,7 +26,7 @@ const AddPromotion = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    "http://localhost:8000/v1/app/products/",
+                    `${apiConfig.serverURL}/v1/app/products/`,
                     {
                         headers: {
                             token: `Bearer ${token?.accessToken || ""}`,
@@ -105,7 +107,7 @@ const AddPromotion = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.post(
-                    "http://localhost:8000/v1/app/promotion/add-promition/",
+                    `${apiConfig.serverURL}/v1/app/promotion/add-promition/`,
                     {
                         title: formData.title,
                         description: formData.description,
@@ -134,7 +136,7 @@ const AddPromotion = () => {
                         formData.appliedProducts.length
                     } sản phẩm: Bắt đầu từ ${formData.startTime} đến ${
                         formData.endTime
-                    }. Liên kết: http://localhost:3000/promotion/${promotionId}`,
+                    }. Liên kết: /promotion/${promotionId}`,
                     "success"
                 );
 

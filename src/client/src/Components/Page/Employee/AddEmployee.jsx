@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 
+import apiConfig from "../../../config/apiConfig";
+
 const AddEmployee = () => {
     const [newEmployee, setNewEmployee] = useState({
         username: "",
@@ -61,7 +63,7 @@ const AddEmployee = () => {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             await axios.post(
-                "http://localhost:8000/v1/auth/register",
+                `${apiConfig.serverURL}/v1/auth/register`,
                 newEmployee,
                 {
                     headers: {
@@ -72,7 +74,6 @@ const AddEmployee = () => {
             alert("Thêm nhân viên thành công!");
             window.location.href = "/employee_management";
         } catch (error) {
-            console.error("Lỗi khi thêm nhân viên:", error);
             alert("Không thể thêm nhân viên.");
         }
     };

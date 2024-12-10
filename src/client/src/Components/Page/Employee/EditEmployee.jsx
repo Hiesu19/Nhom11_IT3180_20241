@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 import makeNotificationToSomeone from "../../../Utils/makeNotificationToSomeone";
+import apiConfig from "../../../config/apiConfig";
 
 const EditEmployee = () => {
     const { id } = useParams();
@@ -23,7 +24,7 @@ const EditEmployee = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    `http://localhost:8000/v1/user/${id}`,
+                    `${apiConfig.serverURL}/v1/user/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -40,7 +41,6 @@ const EditEmployee = () => {
                     password: "",
                 });
             } catch (error) {
-                console.error("Lỗi khi lấy dữ liệu nhân viên:", error);
                 alert("Không thể tải thông tin nhân viên.");
             }
         };
@@ -76,7 +76,7 @@ const EditEmployee = () => {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             const response = await axios.post(
-                `http://localhost:8000/v1/user/${id}`,
+                `${apiConfig.serverURL}/v1/user/${id}`,
                 updatedEmployee,
                 {
                     headers: {
@@ -94,7 +94,6 @@ const EditEmployee = () => {
                 alert("Cập nhật nhân viên thành công!");
             }
         } catch (error) {
-            console.error("Lỗi khi cập nhật dữ liệu:", error);
             alert("Có lỗi xảy ra khi cập nhật nhân viên.");
         }
     };

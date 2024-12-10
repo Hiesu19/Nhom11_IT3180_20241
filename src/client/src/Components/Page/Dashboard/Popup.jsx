@@ -5,7 +5,7 @@ import RevenueChart from "./RevenueChart";
 import { XCircleIcon } from "@heroicons/react/24/outline";
 
 const Popup = ({ isOpen, onClose, data, title, type }) => {
-    if (!isOpen) return null; // Không render nếu popup không mở
+    if (!isOpen) return null;
     console.log(title);
 
     // Xử lý dữ liệu hiển thị

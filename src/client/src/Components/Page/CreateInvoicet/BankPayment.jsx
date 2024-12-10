@@ -7,6 +7,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import saveInvoice from "./saveinvoice";
 import sellSomething from "./sell_something";
 
+import apiConfig from "../../../config/apiConfig";
+
 function BankPayment() {
     const { state } = useLocation();
     const navigate = useNavigate();
@@ -42,7 +44,7 @@ function BankPayment() {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             const response = await axios.post(
-                `http://localhost:8000/v1/app/payment/create-payment-link`,
+                `${apiConfig.serverURL}/v1/app/payment/create-payment-link`,
                 { amount: total },
                 {
                     headers: { token: `Bearer ${token.accessToken}` },
@@ -62,7 +64,7 @@ function BankPayment() {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             const response = await axios.post(
-                `http://localhost:8000/v1/app/payment/check-order`,
+                `${apiConfig.serverURL}/v1/app/payment/check-order`,
                 { orderID },
                 {
                     headers: { token: `Bearer ${token.accessToken}` },
@@ -119,7 +121,7 @@ function BankPayment() {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             const response = await axios.post(
-                `http://localhost:8000/v1/app/payment/cancel-order`,
+                `${apiConfig.serverURL}/v1/app/payment/cancel-order`,
                 { orderID: orderCode },
                 {
                     headers: { token: `Bearer ${token.accessToken}` },

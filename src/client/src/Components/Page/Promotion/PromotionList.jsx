@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 const PromotionList = () => {
     const [promotions, setPromotions] = useState([]);
     const [filteredPromotions, setFilteredPromotions] = useState([]);
@@ -15,7 +17,7 @@ const PromotionList = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    "http://localhost:8000/v1/app/promotion/",
+                    `${apiConfig.serverURL}/v1/app/promotion/`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,

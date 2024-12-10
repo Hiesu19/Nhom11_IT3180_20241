@@ -4,6 +4,8 @@ import axios from "axios";
 import unidecode from "unidecode";
 import Swal from "sweetalert2";
 
+import apiConfig from "../../../config/apiConfig";
+
 function CreateInvoice() {
     const [items, setItems] = useState([]);
     const [productList, setProductList] = useState([]);
@@ -21,7 +23,7 @@ function CreateInvoice() {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    "http://localhost:8000/v1/app/products",
+                    `${apiConfig.serverURL}/v1/app/products`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -133,7 +135,7 @@ function CreateInvoice() {
     // Lọc sản phẩm theo từ khóa (có dấu hoặc không dấu)
     const filteredProducts = searchTerm
         ? productList.filter((product) => {
-              const barcode = product.productInfo?.barcode?.toLowerCase() || ""; 
+              const barcode = product.productInfo?.barcode?.toLowerCase() || "";
               const productID = product.productID.toLowerCase();
               const productName = product.name.toLowerCase();
               const search = searchTerm.trim().toLowerCase();

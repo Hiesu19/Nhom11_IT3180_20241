@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import ProductForm from "./ProductForm";
 import makeNotificationToAdmin from "../../../Utils/makeNotificationToAdmin";
 
+import apiConfig from "../../../config/apiConfig";
+
 const ProductDetail = () => {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
@@ -19,7 +21,7 @@ const ProductDetail = () => {
             try {
                 const token = JSON.parse(localStorage.getItem("user"));
                 const response = await axios.get(
-                    `http://localhost:8000/v1/app/products/info/${id}`,
+                    `${apiConfig.serverURL}/v1/app/products/info/${id}`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,
@@ -148,7 +150,7 @@ const ProductDetail = () => {
         try {
             const token = JSON.parse(localStorage.getItem("user"));
             await axios.put(
-                `http://localhost:8000/v1/app/products/${id}`,
+                `${apiConfig.serverURL}/v1/app/products/${id}`,
                 editedProduct,
                 {
                     headers: {
@@ -218,7 +220,7 @@ const ProductDetail = () => {
                 try {
                     const token = JSON.parse(localStorage.getItem("user"));
                     const respone = await axios.delete(
-                        `http://localhost:8000/v1/app/products/${id}`,
+                        `${apiConfig.serverURL}/v1/app/products/${id}`,
                         {
                             headers: {
                                 token: `Bearer ${token.accessToken}`,

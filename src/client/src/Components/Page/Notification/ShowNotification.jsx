@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+import apiConfig from "../../../config/apiConfig";
+
 function ShowNotification() {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -16,7 +18,7 @@ function ShowNotification() {
                 const token = JSON.parse(localStorage.getItem("user"));
                 setLocal(token);
                 const response = await axios.get(
-                    `http://localhost:8000/v1/app/notification/get_my_notification`,
+                    `${apiConfig.serverURL}/v1/app/notification/get_my_notification`,
                     {
                         headers: {
                             token: `Bearer ${token.accessToken}`,

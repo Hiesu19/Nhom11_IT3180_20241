@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import InvoiceView from "./InvoiceView";
 
+import apiConfig from "../../../config/apiConfig";
+
 const InvoicePage = () => {
     const [invoices, setInvoices] = useState([]);
     const [filteredInvoices, setFilteredInvoices] = useState([]);
@@ -22,7 +24,7 @@ const InvoicePage = () => {
                     console.log("admin");
                     
                     const response = await axios.get(
-                        "http://localhost:8000/v1/app/invoice",
+                        `${apiConfig.serverURL}/v1/app/invoice`,
                         {
                             headers: {
                                 token: `Bearer ${token.accessToken}`,
@@ -32,7 +34,7 @@ const InvoicePage = () => {
                     setInvoices(response.data.reverse());
                 } else {
                     const response = await axios.get(
-                        "http://localhost:8000/v1/app/invoice/me",
+                        `${apiConfig.serverURL}/v1/app/invoice/me`,
                         {
                             headers: {
                                 token: `Bearer ${token.accessToken}`,
