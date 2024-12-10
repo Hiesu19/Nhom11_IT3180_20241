@@ -16,6 +16,7 @@ class AuthController {
                 email: req.body.email,
                 password: hashed,
                 role: req.body.role,
+                phone: req.body.phone,
             });
 
             //Save Database
@@ -72,6 +73,16 @@ class AuthController {
             }
         } catch (error) {
             return res.status(500).json(error);
+        }
+    };
+
+
+    // Trigger tạo để gia hạn thời gian sống khi deploy
+    trigger = async (req, res) => {
+        try {
+            res.json({ message: "Hello, World!" });
+        } catch (error) {
+            res.json({ message: "Error !" });
         }
     };
 }

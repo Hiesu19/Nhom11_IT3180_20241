@@ -2,25 +2,25 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
     HomeIcon,
-    UserCircleIcon,
-    Cog6ToothIcon,
     ArrowLeftOnRectangleIcon,
     Bars3Icon,
+    ShoppingCartIcon,
+    UsersIcon,
+    ReceiptPercentIcon,
+    BellIcon,
+    TicketIcon,
+    ShoppingBagIcon,
 } from "@heroicons/react/24/outline";
 
-import handleDashboardClick from "./handleDashboardClick";
-import handleProfileClick from "./handleProfileClick";
-import handleSettingsClick from "./handleSettingsClick";
 import handleLogoutClick from "./handleLogoutClick";
 
 const Sidebar = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [activeItem, setActiveItem] = useState(null);
+    const [activeItem, setActiveItem] = useState("Dashboard");
     const [user, setUser] = useState({});
 
     const navigate = useNavigate();
 
-    // Kiểm tra có data trong Local không, nếu không có trả lại trang "/"
     useEffect(() => {
         const savedUser = localStorage.getItem("user");
         if (savedUser) {
@@ -45,12 +45,6 @@ const Sidebar = () => {
         user.name
     )}&background=random&color=fff`;
 
-    // Hàm xử lý khi nhấn vào tùy chọn
-    const handleItemClick = (item) => {
-        setActiveItem(item); // Cập nhật tùy chọn đang được chọn
-    };
-
-    // Sử dụng useEffect để tự động gập sidebar khi màn hình nhỏ hơn 900px
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth < 1200) {
@@ -61,10 +55,8 @@ const Sidebar = () => {
         };
         handleResize();
 
-        // Lắng nghe sự thay đổi kích thước cửa sổ
         window.addEventListener("resize", handleResize);
 
-        // Cleanup listener khi component unmount
         return () => {
             window.removeEventListener("resize", handleResize);
         };
@@ -75,28 +67,57 @@ const Sidebar = () => {
             name: "Dashboard",
             icon: <HomeIcon className="w-6 h-6" />,
             onClick: () => {
-                handleDashboardClick();
                 setActiveItem("Dashboard");
             },
             link: "/dashboard",
         },
         {
-            name: "Profile",
-            icon: <UserCircleIcon className="w-6 h-6" />,
+            name: "Quản lý nhân viên",
+            icon: <UsersIcon className="w-6 h-6" />,
             onClick: () => {
-                handleProfileClick();
-                setActiveItem("Profile");
+                setActiveItem("Quản lý nhân viên");
             },
-            link: "/profile",
+            link: "/employee_management",
         },
         {
-            name: "Settings",
-            icon: <Cog6ToothIcon className="w-6 h-6" />,
+            name: "Quản Lý Sản Phẩm",
+            icon: <ShoppingCartIcon className="w-6 h-6" />,
             onClick: () => {
-                handleSettingsClick();
-                setActiveItem("Settings");
+                setActiveItem("Quản Lý Sản Phẩm");
             },
-            link: "/settings",
+            link: "/product_management",
+        },
+        {
+            name: "Tạo hóa đơn",
+            icon: <ShoppingBagIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Tạo hóa đơn");
+            },
+            link: "/create_invoicet",
+        },
+        {
+            name: "Thông báo",
+            icon: <BellIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Thông báo");
+            },
+            link: "/notification",
+        },
+        {
+            name: "Khuyến mãi",
+            icon: <TicketIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Khuyến mãi");
+            },
+            link: "/promotion",
+        },
+        {
+            name: "Lịch sử hoá đơn",
+            icon: <ReceiptPercentIcon className="w-6 h-6" />,
+            onClick: () => {
+                setActiveItem("Lịch sử hoá đơn");
+            },
+            link: "/invoice_history",
         },
         {
             name: "Logout",
@@ -126,15 +147,14 @@ const Sidebar = () => {
                 </button>
                 {/* Tên ứng dụng */}
                 <div
-                    className={`text-lg font-bold ${
+                    className={` text-lg font-bold ${
                         isCollapsed ? "hidden" : "block"
                     }`}
                 >
-                    Codinglab
+                    3D2H Lab
                 </div>
             </div>
 
-            {/* Navigation links với khả năng cuộn */}
             <div className="flex-grow overflow-y-auto scrollbar-hide">
                 <ul className="p-4 space-y-4">
                     {menuItems.map((item) => (
@@ -162,14 +182,13 @@ const Sidebar = () => {
                 </ul>
             </div>
 
-            {/* Avatar hiển thị hình ảnh từ API ở cuối sidebar */}
             <div className="flex items-center justify-start p-4">
                 <img
-                    src={avatarUrl} // Sử dụng avatar từ API với các tham số mới
+                    src={avatarUrl}
                     alt="Avatar"
-                    className={`rounded-full w-12 h-12`} // Đặt kích thước avatar cố định
+                    className={`rounded-full w-12 h-12`}
                 />
-                {/* Nhóm tên và chức vụ thành một khối */}
+
                 <div
                     className={`ml-2 ${
                         isCollapsed ? "hidden" : "flex flex-col"
@@ -180,12 +199,12 @@ const Sidebar = () => {
                     </p>
                     {/* Tên người dùng hiển thị bên cạnh avatar */}
                     <p className="text-sm text-gray-600">
-                        {user.role === 0
-                            ? "Người quản lý"
-                            : user.role === 1
+                        {user.role === "nv_ban_hang"
                             ? "Nhân viên bán hàng"
-                            : user.role === 2
-                            ? "Nhân viên kho hàng"
+                            : user.role === "ql_kho"
+                            ? "Quản lý kho"
+                            : user.role === "admin"
+                            ? "Admin"
                             : "Helo"}
                         {/* Hiển thị chức vụ của người dùng */}
                     </p>

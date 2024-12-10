@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import apiConfig from "../../config/apiConfig";
+
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -13,12 +15,10 @@ function Login() {
         if (savedUser) {
             navigate("/dashboard");
         }
-    }, []);
+    }, [navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        console.log("Username:", username);
-        console.log("Password:", password);
 
         const loginData = {
             username: username,
@@ -27,7 +27,7 @@ function Login() {
 
         try {
             const response = await axios.post(
-                "http://localhost:8000/v1/auth/login",
+                `${apiConfig.serverURL}/v1/auth/login`,
                 loginData,
                 {
                     headers: {
@@ -55,7 +55,10 @@ function Login() {
         <div className="flex min-h-screen">
             {/* Phần bên trái hiển thị tên phần mềm */}
             <div className="flex flex-1 bg-blue-500 justify-center items-center">
-                <h1 className="text-white text-5xl font-bold">CoddingLab</h1>
+                <h1 className="text-5xl font-bold">
+                    <span className="text-purple-300 text-7xl">3D2H</span>{" "}
+                    <span className="text-white text-4xl">SuperMarket</span>
+                </h1>
             </div>
 
             {/* Phần bên phải là form đăng nhập */}
@@ -71,17 +74,17 @@ function Login() {
                     <div className="mb-4">
                         <label
                             className="block text-gray-700 text-sm font-bold mb-2"
-                            htmlFor="username" // Thay đổi id từ email thành username
+                            htmlFor="username"
                         >
                             Username
                         </label>
                         <input
                             type="text"
-                            id="username" // Thay đổi id từ email thành username
+                            id="username"
                             className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:border-blue-500"
                             placeholder="Enter your username"
                             value={username}
-                            onChange={(e) => setUsername(e.target.value)} // Thay đổi email thành username
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                         />
                     </div>

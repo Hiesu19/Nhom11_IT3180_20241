@@ -11,6 +11,19 @@ router.get(
     productController.getAllProducts
 );
 
+// Lấy thông tin cỉa 1 sản phẩm
+router.get(
+    "/info/:id",
+    middlewareControllers.verifyToken,
+    productController.getProductsByID
+);
+
+router.post(
+    "/info",
+    middlewareControllers.verifyToken,
+    productController.getProductsByIDs
+);
+
 //Thêm hàng vào kho
 router.post(
     "/add_product",
@@ -37,6 +50,13 @@ router.put(
     "/:id",
     middlewareControllers.verifyTokenAndQL_Admin,
     productController.updateProduct
+);
+
+// Sell
+router.post(
+    "/sell",
+    middlewareControllers.verifyToken,
+    productController.sellProduct
 );
 
 module.exports = router;
