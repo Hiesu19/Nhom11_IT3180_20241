@@ -18,15 +18,29 @@ const InvoicePage = () => {
                 setLoading(true);
                 setError("");
                 const token = JSON.parse(localStorage.getItem("user"));
-                const response = await axios.get(
-                    "http://localhost:8000/v1/app/invoice",
-                    {
-                        headers: {
-                            token: `Bearer ${token.accessToken}`,
-                        },
-                    }
-                );
-                setInvoices(response.data);
+                if (token.user_datas.role === "admin") {
+                    console.log("admin");
+                    
+                    const response = await axios.get(
+                        "http://localhost:8000/v1/app/invoice",
+                        {
+                            headers: {
+                                token: `Bearer ${token.accessToken}`,
+                            },
+                        }
+                    );
+                    setInvoices(response.data.reverse());
+                } else {
+                    const response = await axios.get(
+                        "http://localhost:8000/v1/app/invoice/me",
+                        {
+                            headers: {
+                                token: `Bearer ${token.accessToken}`,
+                            },
+                        }
+                    );
+                    setInvoices(response.data.reverse());
+                }
             } catch (err) {
                 setError(
                     err.response?.data?.message || "Failed to fetch invoices."

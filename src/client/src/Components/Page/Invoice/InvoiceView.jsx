@@ -26,7 +26,10 @@ const InvoiceView = ({ invoice }) => {
                     Invoice ID: {invoiceID}
                 </h2>
                 <p>
-                    <strong>Employee ID:</strong> {employee}
+                    <strong>Employee ID:</strong>{" "}
+                    {typeof employee === "object" && employee !== null
+                        ? employee.username
+                        : employee}
                 </p>
                 <p>
                     <strong>Payment Method:</strong> {paymentMethod}
