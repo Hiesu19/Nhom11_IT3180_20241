@@ -31,89 +31,86 @@ import AddPromotion from "./Components/Page/Promotion/AddPromotion";
 import InvoicePage from "./Components/Page/Invoice/InvoicePage";
 
 function App() {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/" element={<Login />} />
-                <Route
-                    path="/dashboard"
-                    element={<Layout content={<Dashboard />} />}
-                />
-                <Route
-                    path="/employee_management"
-                    element={<Layout content={<UserList />} />}
-                />
-                <Route
-                    path="/employee_management/edit/:id"
-                    element={<Layout content={<EditEmployee />} />}
-                />
-                <Route
-                    path="/employee_management/add"
-                    element={<Layout content={<AddEmployee />} />}
-                />
-                <Route
-                    path="/employee_management/detail/:id"
-                    element={<Layout content={<DetailEmployee />} />}
-                />
-                <Route
-                    path="/create_invoicet"
-                    element={<Layout content={<CreateInvoicet />} />}
-                />
-                <Route
-                    path="/invoice_preview"
-                    element={<Layout content={<InvoicePreview />} />}
-                />
-                <Route
-                    path="/invoice_preview/cash"
-                    element={<Layout content={<CashPayment />} />}
-                />
-                <Route
-                    path="/invoice_preview/bank"
-                    element={<Layout content={<BankPayment />} />}
-                />
-                <Route
-                    path="/product_management"
-                    element={<Layout content={<ProductManagement />} />}
-                />
-                <Route
-                    path="/product_management/add_product"
-                    element={<Layout content={<AddProduct />} />}
-                />
-                <Route
-                    path="/product/:id"
-                    element={<Layout content={<ProductDetail />} />}
-                />
-                <Route
-                    path="/notification"
-                    element={<Layout content={<ShowNotification />} />}
-                />
-                <Route
-                    path="/notification/seen/:id"
-                    element={<Layout content={<DetailNotification />} />}
-                />
-                <Route
-                    path="/notification/create"
-                    element={<Layout content={<CreateNotification />} />}
-                />
-                <Route
-                    path="/promotion"
-                    element={<Layout content={<PromotionList />} />}
-                />
-                <Route
-                    path="/promotion/add"
-                    element={<Layout content={<AddPromotion />} />}
-                />
-                <Route
-                    path="/promotion/:id"
-                    element={<Layout content={<PromotionDetail />} />}
-                />
-                <Route
-                    path="/invoice_history"
-                    element={<Layout content={<InvoicePage />} />}
-                />
-            </Routes>
-        </Router>
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/dashboard" element={<Layout content={<Dashboard />} />} />
+        <Route
+          path="/employee_management"
+          element={<Layout content={<UserList />} />}
+        />
+        <Route
+          path="/employee_management/edit/:id"
+          element={<Layout content={<EditEmployee />} />}
+        />
+        <Route
+          path="/employee_management/add"
+          element={<Layout content={<AddEmployee />} />}
+        />
+        <Route
+          path="/employee_management/detail/:id"
+          element={<Layout content={<DetailEmployee />} />}
+        />
+        <Route
+          path="/create_invoicet"
+          element={<Layout content={<CreateInvoicet />} />}
+        />
+        <Route
+          path="/invoice_preview"
+          element={<Layout content={<InvoicePreview />} />}
+        />
+        <Route
+          path="/invoice_preview/cash"
+          element={<Layout content={<CashPayment />} />}
+        />
+        <Route
+          path="/invoice_preview/bank"
+          element={<Layout content={<BankPayment />} />}
+        />
+        <Route
+          path="/product_management"
+          element={<Layout content={<ProductManagement />} />}
+        />
+        <Route
+          path="/product_management/add_product"
+          element={<Layout content={<AddProduct />} />}
+        />
+        <Route
+          path="/product/:id"
+          element={<Layout content={<ProductDetail />} />}
+        />
+        <Route
+          path="/notification"
+          element={<Layout content={<ShowNotification />} />}
+        />
+        <Route
+          path="/notification/seen/:id"
+          element={<Layout content={<DetailNotification />} />}
+        />
+        <Route
+          path="/notification/create"
+          element={<Layout content={<CreateNotification />} />}
+        />
+        <Route
+          path="/promotion"
+          element={<Layout content={<PromotionList />} />}
+        />
+        <Route
+          path="/promotion/add"
+          element={<Layout content={<AddPromotion />} />}
+        />
+        <Route
+          path="/promotion/:id"
+          element={<Layout content={<PromotionDetail />} />}
+        />
+        <Route
+          path="/invoice_history"
+          element={<Layout content={<InvoicePage />} />}
+        />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;

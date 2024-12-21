@@ -132,11 +132,9 @@ const AddPromotion = () => {
 
                 makeNotificationToAll(
                     `Đã tạo 1 khuyến mãi mới ${formData.title}.`,
-                    `Giảm ${parseFloat(formData.discount)}% cho ${
-                        formData.appliedProducts.length
-                    } sản phẩm: Bắt đầu từ ${formData.startTime} đến ${
-                        formData.endTime
-                    }. Liên kết: /promotion/${promotionId}`,
+                    `Giảm ${parseFloat(formData.discount)}% cho ${formData.appliedProducts.length
+                    } sản phẩm: Bắt đầu từ ${formData.startTime} đến ${formData.endTime
+                    }.`,
                     "success"
                 );
 
@@ -259,56 +257,41 @@ const AddPromotion = () => {
                     </div>
 
                     <div className="mt-4">
-                        <p className="text-lg font-medium mb-2">
-                            Sản phẩm đã được chọn
-                        </p>
+                        <p className="text-lg font-medium mb-2">Sản phẩm đã được chọn</p>
                         {formData.appliedProducts.length > 0 ? (
                             <div className="overflow-y-auto max-h-60 border border-gray-300 rounded-lg">
                                 <table className="w-full table-auto border-collapse">
                                     <thead>
                                         <tr className="bg-gray-100 sticky top-0">
-                                            <th className="border border-gray-300 px-4 py-2">
-                                                STT
-                                            </th>
-                                            <th className="border border-gray-300 px-4 py-2">
-                                                ID
-                                            </th>
+                                            <th className="border border-gray-300 px-4 py-2">STT</th>
+                                            <th className="border border-gray-300 px-4 py-2">ID</th>
                                             <th className="border border-gray-300 px-4 py-2">
                                                 Tên sản phẩm
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {formData.appliedProducts.map(
-                                            (id, index) => {
-                                                const product =
-                                                    allProducts.find(
-                                                        (p) => p._id === id
-                                                    );
-                                                return (
-                                                    <tr key={id}>
-                                                        <td className="border border-gray-300 px-4 py-2 text-center">
-                                                            {index + 1}
-                                                        </td>
-                                                        <td className="border border-gray-300 px-4 py-2">
-                                                            {product?.productID ||
-                                                                "N/A"}
-                                                        </td>
-                                                        <td className="border border-gray-300 px-4 py-2">
-                                                            {product?.name ||
-                                                                "N/A"}
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            }
-                                        )}
+                                        {formData.appliedProducts.map((id, index) => {
+                                            const product = allProducts.find((p) => p._id === id);
+                                            return (
+                                                <tr key={id}>
+                                                    <td className="border border-gray-300 px-4 py-2 text-center">
+                                                        {index + 1}
+                                                    </td>
+                                                    <td className="border border-gray-300 px-4 py-2">
+                                                        {product?.productID || "N/A"}
+                                                    </td>
+                                                    <td className="border border-gray-300 px-4 py-2">
+                                                        {product?.name || "N/A"}
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
                         ) : (
-                            <p className="text-gray-500">
-                                Chưa có sản phẩm nào được chọn.
-                            </p>
+                            <p className="text-gray-500">Chưa có sản phẩm nào được chọn.</p>
                         )}
                     </div>
 

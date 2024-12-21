@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiConfig from "../config/apiConfig";
 
 const makeNotificationToAll = async (title, body, type) => {
     try {
@@ -21,7 +22,7 @@ const makeNotificationToAll = async (title, body, type) => {
 
         // Gửi POST request đến API
         const response = await axios.post(
-            `http://localhost:8000/v1/app/notification/post`,
+            `${apiConfig.serverURL}/v1/app/notification/post`,
             data,
             config
         );

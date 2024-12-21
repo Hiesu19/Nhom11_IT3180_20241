@@ -1,4 +1,5 @@
 import axios from "axios";
+import apiConfig from "../config/apiConfig";
 
 const makeNotificationToSomeone = async (title, body, type, sendTo) => {
     try {
@@ -18,10 +19,12 @@ const makeNotificationToSomeone = async (title, body, type, sendTo) => {
             body: body,
             type: type,
         };
+        console.log(data);
+
 
         // Gửi POST request đến API
         const response = await axios.post(
-            `http://localhost:8000/v1/app/notification/post_for_someone/${sendTo}`,
+            `${apiConfig.serverURL}/v1/app/notification/post_for_someone/${sendTo}`,
             data,
             config
         );
