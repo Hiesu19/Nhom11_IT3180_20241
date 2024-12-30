@@ -103,14 +103,14 @@ const InvoicePage = () => {
                 <div className="grid grid-cols-2 gap-4 mb-4">
                     <input
                         type="text"
-                        placeholder="Invoice ID"
+                        placeholder="Mã hóa đơn."
                         className="border rounded p-2 text-sm w-full"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     <input
                         type="text"
-                        placeholder="Employee ID"
+                        placeholder="username nhân viên"
                         className="border rounded p-2 text-sm w-full"
                         value={employeeQuery}
                         onChange={(e) => setEmployeeQuery(e.target.value)}
@@ -133,13 +133,13 @@ const InvoicePage = () => {
                         className="bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-600"
                         onClick={handleFilter}
                     >
-                        Filter
+                        Lọc
                     </button>
                 </div>
             </div>
 
             {filteredInvoices.length === 0 ? (
-                <p className="text-gray-500 text-center">No invoices found.</p>
+                <p className="text-gray-500 text-center">Không thấy hóa đơn.</p>
             ) : (
                 filteredInvoices.map((invoice) => (
                     <InvoiceView key={invoice._id} invoice={invoice} />

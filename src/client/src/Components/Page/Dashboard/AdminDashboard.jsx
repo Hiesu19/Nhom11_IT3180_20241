@@ -112,7 +112,7 @@ const AdminDashboard = ({ overviewData }) => {
                     label="Số hoá đơn"
                     value={overviewData.counter.invoicesCount}
                     onClick={() => {
-                        navigate("/employee_management");
+                        navigate("/invoice_history");
                     }}
                 />
                 <OverviewCard

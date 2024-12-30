@@ -105,7 +105,7 @@ function ShowNotification() {
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-gray-500">No notifications available.</p>
+                    <p className="text-gray-500">Không có thông báo nào khả dụng.</p>
                 )}
             </div>
         </>
