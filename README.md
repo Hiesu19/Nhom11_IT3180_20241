@@ -9,9 +9,6 @@ Website quản lý kho hàng, sản phẩm và doanh thu của siêu thị
 - Nguyễn Thái Hiếu: 20225127 [@Hiesu19](https://github.com/Hiesu19)
 - Nguyễn Trung Hoàng: 20225192 [@hoang2514](https://github.com/hoang2514)
 - Nguyễn Trung Đức: 20225288 [@DLucilfer](https://github.com/DLucilfer)
-- Phạm Tiến Đạt: 20225177 [@theshynb30](https://github.com/theshynb30)
-- Nguyễn Đức Dương: 20225122 [@duongngdeptrai](https://github.com/duongngdeptrai)
-
 
 ## Demo
 
