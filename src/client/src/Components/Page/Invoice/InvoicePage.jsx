@@ -95,7 +95,7 @@ const InvoicePage = () => {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                Invoice List
+                Danh sách hóa đơn
             </h1>
 
             {/* Tìm kiếm và bộ lọc */}

@@ -80,7 +80,7 @@ function Login() {
               type="text"
               id="username"
               className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Enter your username"
+              placeholder="Enter your username (admin0)"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -98,11 +98,15 @@ function Login() {
               type="password"
               id="password"
               className="w-full px-3 py-2 border rounded-lg text-gray-700 focus:outline-none focus:ring focus:border-blue-500"
-              placeholder="Enter your password"
+              placeholder="Enter your password (123456@)"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
+            <h3>
+              Vui lòng chờ khoảng 30s để đăng nhập vì server free nên cần thời
+              gian wake up !!
+            </h3>
           </div>
 
           <button
